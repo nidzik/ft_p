@@ -44,10 +44,10 @@ int main(int ac, char **av)
       ft_putendl("Error while listing. Exiting...");
       exit(1);
     }
-  unsigned int test = 0;
+
   while(42)
     {
-      if ((e->accept_socket = accept(e->socketid, (struct sockaddr *) &e->cli_sock, &test)) < 0)
+      if ((e->accept_socket = accept(e->socketid, (struct sockaddr *) &e->cli_sock, (unsigned int *)&e->cli_size)) < 0)
 	{
 	        ft_putendl("Error while accepting the socket. Exiting...");
 		exit(1);
