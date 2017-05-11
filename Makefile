@@ -41,10 +41,12 @@ CFLAGS = $(BASEFLAGS) -Werror -O2 -g
 LFTCALL = all
 LFTRE = re
 
-SRCFILESERVER  =	main.c 
+SRCFILESERVER  =	main.c \
+			error.c \
+			handle_cmds.c
 
 SRCFILECLI  =	main.c \
-		gnl.c
+		error.c
 
 SRCSERVER = $(addprefix $(SRCPATHSERVER)/,$(SRCFILESERVER))
 OBJSERVER = $(SRCSERVER:$(SRCPATHSERVER)/%.c=$(OBJPATHSERVER)/%.o)

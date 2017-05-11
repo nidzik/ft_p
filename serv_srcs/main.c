@@ -1,70 +1,83 @@
 #include "ft_p.h"
 
-void init_env(t_env *e)
+static void init_env(t_env *e, char **av)
 {
-  e->prot = getprotoent();
+  e->port = ft_atoi(av[1]);
+  e->prot = getprotobyname("tcp");
   e->socketid = 0;
   e->accept_socket = 0;
   e->pid = 0;
   e->cli_size = 0;
   ft_bzero(&e->serv_sock, sizeof(e->serv_sock));
-  e->serv_sock.sin_family  = PF_INET;
-  e->serv_sock.sin_port = htons(PORT);
-  e->serv_sock.sin_addr.s_addr = htons(INADDR_ANY);
+  e->serv_sock.sin_family  = AF_INET;
+  e->serv_sock.sin_port = htons(e->port);
+  e->serv_sock.sin_addr.s_addr = htonl(INADDR_ANY);
   
 }
-int main(int ac, char **av)
+
+static void sock_bind_listen(t_env *e)
 {
-  t_env *e;
+      if ((e->socketid = socket(PF_INET, SOCK_STREAM, e->prot->p_proto)) < 0)
+    exit_error("socket error server side.\nExiting...");
+      if ((bind(e->socketid, (struct sockaddr *) &e->serv_sock, sizeof(e->serv_sock))) < 0)
+    exit_error("Error while binding the socket.\nExiting...");
+      if (listen(e->socketid, 5) < 0 )
+	exit_error("Error while listing. Exiting...");  
+}
 
-  e = (t_env *)malloc(sizeof(t_env));
-  init_env(e);
-  (void)ac;
-  (void)av;
-  ft_putendl(e->prot->p_name);
-  ft_putnbr(e->prot->p_proto);
-
-  if ((e->socketid = socket(PF_INET, SOCK_STREAM, 0)) < 0)
+static void ft_ftp(t_env *e)
+{
+  int req;
+  int r;
+  
+  req = 0;
+  ft_putendl("Reading the cmd from socket...");
+  while ((r = read(SK, (char *)&req, sizeof(req))) >0)
     {
-      ft_putnbr(errno);
-      ft_putendl("socket error server side.\nExiting...");
-      exit(0);
+      if (r <= 0)
+	exit_error("Error while readding ");
+      req = ntohs(req);
+      ft_putnbr(req);
+      ft_putchar('\n');
+      if (req == LS || req == CD || req == GET || req == PUT || req == PWD || req == QUIT){	
+	if (write(SK, "ur cmd was received\n", 21) < 0)
+	  ft_putendl("failure writing on the socket");
+	get_fct(req,e);
+	}
+      else
+	if (write(SK, "cmd unknow\n", 11) < 0)
+	  ft_putendl("failure writing on the socket");
+      //get_cmd(req);
     }
+}
 
-  if ((bind(e->socketid, (struct sockaddr *) &e->serv_sock, sizeof(e->serv_sock))) < 0)
-    {
-      char *bouh = strerror(errno);
-      ft_putendl(bouh);
-      ft_putendl("Error while binding the socket.\nExiting...");
-      exit(0);
-    }
-
-  if (listen(e->socketid, 5) < 0 )
-    {
-      ft_putendl("Error while listing. Exiting...");
-      exit(1);
-    }
-
+static void boucle_accept(t_env *e)
+{
   while(42)
     {
       if ((e->accept_socket = accept(e->socketid, (struct sockaddr *) &e->cli_sock, (unsigned int *)&e->cli_size)) < 0)
-	{
-	        ft_putendl("Error while accepting the socket. Exiting...");
-		exit(1);
-	}
+	exit_error("Error while accepting the socket. Exiting...");
       if ((e->pid = fork()) == 0)
 	{
 	  close(e->socketid);
-	  ft_ftp(e->accept_socket);
+	  ft_ftp(e);
 	  close(e->accept_socket);
 	  exit(0);
 	}
     }
+}
+
+int main(int ac, char **av)
+{
+  t_env *e;
+  
+  if (!(e = (t_env *)malloc(sizeof(t_env))))
+      exit_error("Error : malloc fail");
+      if (ac < 2)
+	exit_error("usage ./server port");
+      init_env(e, av);
+      sock_bind_listen(e);
+      boucle_accept(e);
   return(0);
 }
 
-void ft_ftp(int accepted_sk)
-{
-  (void) accepted_sk;
-  ft_putendl("ur in !");
-}

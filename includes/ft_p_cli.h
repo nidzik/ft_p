@@ -6,8 +6,10 @@
 #include <arpa/inet.h>
 #include "../libft/libft.h"
 #include <errno.h>
+#include <arpa/inet.h>
 
 #define BUFSIZE 256
+
 typedef struct	s_env
 {
   struct hostent *serv;
@@ -16,8 +18,6 @@ typedef struct	s_env
   struct sockaddr_in	serv_sock;
 }		t_env;
 
-void	ft_ftp(int accepted_sk);
-int	get_next_line(const int fd, char **line);
-
+void	exit_error(char *err);
 
 #endif
