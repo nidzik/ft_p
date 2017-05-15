@@ -29,25 +29,40 @@ static void ft_ftp(t_env *e)
 {
   int req;
   int r;
+  char buf[128];
   
   req = 0;
   ft_putendl("Reading the cmd from socket...");
-  while ((r = read(SK, (char *)&req, sizeof(req))) >0)
+  while ((r = read(SK, (char *)buf, sizeof(buf))) >0)
     {
       if (r <= 0)
 	exit_error("Error while readding ");
-      req = ntohs(req);
-      ft_putnbr(req);
-      ft_putchar('\n');
-      if (req == LS || req == CD || req == GET || req == PUT || req == PWD || req == QUIT){	
+            buf[r] = '\0';
+	    //      write(SK, &buf,sizeof(buf));
+
+      //req = ntohs(req);
+      //      ft_putnbr(req);
+      //ft_putchar('\n');
+      /*      if (req == LSS || req == CDD || req == GETT || req == PUTT || req == PWDD || req == QUITT){	
 	if (write(SK, "ur cmd was received\n", 21) < 0)
 	  ft_putendl("failure writing on the socket");
 	get_fct(req,e);
 	}
-      else
-	if (write(SK, "cmd unknow\n", 11) < 0)
-	  ft_putendl("failure writing on the socket");
+	else*/
+      //if (write(SK, "cmd unknow\n", 11) < 0)
+      //  ft_putendl("failure writing on the socket");
       //get_cmd(req);
+	    ft_putendl(buf);
+	          if (ft_strncmp("ls", buf, 2) == 0)
+            	get_fct(0,e);
+		  else if (ft_strncmp("pwd", buf, 3) == 0)
+		    get_pwd(buf, e);
+		  else
+		    ft_putendl("error cmd");
+		  ft_putendl("bz buf");
+            ft_bzero(buf, 128);
+	req = 0;
+	r = 0;
     }
 }
 
@@ -60,6 +75,7 @@ static void boucle_accept(t_env *e)
       if ((e->pid = fork()) == 0)
 	{
 	  close(e->socketid);
+	  //handle
 	  ft_ftp(e);
 	  close(e->accept_socket);
 	  exit(0);

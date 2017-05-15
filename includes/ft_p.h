@@ -8,12 +8,12 @@
 #include <errno.h>
 
 #define PORT 4242
-#define LS 27763
-#define CD 25444
-#define GET 26469
-#define PUT 28789
-#define PWD 28791
-#define QUIT 29045
+#define LSS 27763
+#define CDD 25444
+#define GETT 26469
+#define PUTT 28789
+#define PWDD 28791
+#define QUITT 29045
 #define IDK 2673
 #define SK e->accept_socket
 
@@ -33,5 +33,6 @@ struct protoent	*prot;
 
 void exit_error(char *err);
 void get_fct(int req, t_env *e);
-
+void    handle(int clifd);
+void get_pwd(char *buf, t_env *e);
 #endif

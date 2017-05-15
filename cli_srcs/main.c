@@ -35,18 +35,26 @@ static void send_cmd_and_receive(t_env *e)
   
   ft_bzero(buf,256);
   r = 0;
-  while ((r = read(0, buf, BUFSIZE)) > 0)
+  while(1){
+                  write(1,"ftp>",4);
+  if ((r = read(0, buf, BUFSIZE)) > 0)
     {
+
       buf[r] = '\0';
       if (write(e->socketid, buf, ft_strlen(buf)) < 0)
 	exit_error("Error, can't write on the socket.");
       ft_bzero(buf,256);
-      r = 0;	
-      r = read(e->socketid, buf,BUFSIZE);
+      r = 0;
+      if (( r = read(e->socketid, buf,BUFSIZE)) < 0)
+	exit_error("Error, can't write on the socket.");
+      buf[r] = '\0';
       if (r < 0)
 	exit_error("Erorr reading buf");
 	ft_putendl(buf);
-    }  
+	      ft_bzero(buf,256);
+	      r = 0;
+    }
+  }
 }
 
 int main(int ac, char **av)
