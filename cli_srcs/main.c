@@ -45,14 +45,16 @@ static void send_cmd_and_receive(t_env *e)
 	exit_error("Error, can't write on the socket.");
       ft_bzero(buf,256);
       r = 0;
-      if (( r = read(e->socketid, buf,BUFSIZE)) < 0)
-	exit_error("Error, can't write on the socket.");
+	  ft_putendl("receive");
+	  if (( r = read(e->socketid, buf,BUFSIZE)) < 0)
+		  exit_error("Error, can't write on the socket.");
+	  ft_putnbr(r);
       buf[r] = '\0';
       if (r < 0)
-	exit_error("Erorr reading buf");
-	ft_putendl(buf);
-	      ft_bzero(buf,256);
-	      r = 0;
+		  exit_error("Erorr reading buf");
+	  ft_putendl(buf);
+	  ft_bzero(buf,256);
+	  r = 0;
     }
   }
 }

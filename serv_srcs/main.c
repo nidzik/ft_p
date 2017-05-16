@@ -33,7 +33,8 @@ static void ft_ftp(t_env *e)
   
   req = 0;
   ft_putendl("Reading the cmd from socket...");
-  while ((r = read(SK, (char *)buf, sizeof(buf))) >0)
+  while(42)
+	  if ((r = read(SK, (char *)buf, sizeof(buf))) >0)
     {
       if (r <= 0)
 	exit_error("Error while readding ");

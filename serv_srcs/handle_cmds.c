@@ -291,7 +291,7 @@ void get_fct(int req,  t_env *e)
         else
                 wait4(pid, &status, 0, &usage);
 		ft_putendl("writing \\0");
-	write(stdio[1], "\0", 1);
+		//	write(stdio[1], "\0", 1);
   }
   else
     write(SK,"command not found\n\0",18 );
@@ -306,6 +306,11 @@ void get_pwd(char *buf, t_env *e)
 
   (void)buf;
   getcwd(path, sizeof(path));
-  write(SK,path,sizeof(path));
-  write (SK,"\0",1);
+  ft_putnbr((int)sizeof(path));
+  path[ft_strlen(path)] = '\0';
+  write(SK,path,ft_strlen(path));
+  write(0,path,sizeof(path));
+  bzero(path,1024);
+  //write (SK,"coucou\n\0",8);
+  //write (0,"\0",1);
 }
