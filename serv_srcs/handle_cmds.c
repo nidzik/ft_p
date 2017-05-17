@@ -44,9 +44,10 @@ void get_fct(char *cmd,	 t_env *e)
 
 
 	array_cmd = NULL;
-	array_cmd = ft_strsplitwith(cmd, " \t", NULL);
+	ft_putendl(ft_strtrim(cmd));
+	array_cmd = ft_strsplit(ft_strtrim(cmd), ' ');
 	i = ft_arraylen(array_cmd) -1 ;
-	array_cmd[i][ft_strlen(array_cmd[i]) -1 ] = '\0';//trim_array(array_cmd);
+	//array_cmd[i][ft_strlen(array_cmd[i]) -1 ] = '\0';//trim_array(array_cmd);
 	if (ft_strncmp("ls", cmd, 2) == 0)
 		handle_ls(array_cmd, e);
 	else if (ft_strncmp("pwd", cmd, 3) == 0)
