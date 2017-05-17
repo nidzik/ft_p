@@ -43,7 +43,8 @@ LFTRE = re
 
 SRCFILESERVER  =	main.c \
 			error.c \
-			handle_cmds.c
+			handle_cmds.c \
+			utils.c
 
 SRCFILECLI  =	main.c \
 		error.c

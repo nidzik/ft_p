@@ -42,6 +42,8 @@ void				ft_putchar(char c);
 void				ft_putstr(char const *s);
 void				ft_putendl(char const *s);
 void				ft_putnbr(int c);
+void				ft_print_array(char **arr);
+int					ft_arraylen(char **a);
 
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
@@ -74,6 +76,7 @@ int					ft_strequ(char const *s1, char const *s2);
 int					ft_strnequ(char const *s1, char const *s2, size_t n);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				*ft_strtrim(const char *s);
+char				**ft_strsplitwith(char *str, char *seps, size_t *count);
 
 void				*ft_memalloc(size_t size);
 void				ft_bzero(void *s, size_t n);

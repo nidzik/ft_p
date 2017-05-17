@@ -33,7 +33,7 @@ static void send_cmd_and_receive(t_env *e)
   int r;
   char buf[BUFSIZE];
   
-  ft_bzero(buf,256);
+  ft_bzero(buf,BUFSIZE);
   r = 0;
   while(1){
                   write(1,"ftp>",4);

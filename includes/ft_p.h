@@ -32,7 +32,9 @@ struct protoent	*prot;
 }		t_env;
 
 void exit_error(char *err);
-void get_fct(int req, t_env *e);
+void get_fct(char *cmd, t_env *e);
 void    handle(int clifd);
 void get_pwd(char *buf, t_env *e);
+char **cmd_to_split(char *cmd);
+
 #endif

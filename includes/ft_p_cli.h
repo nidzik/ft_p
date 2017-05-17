@@ -8,7 +8,7 @@
 #include <errno.h>
 #include <arpa/inet.h>
 
-#define BUFSIZE 256
+#define BUFSIZE 2058
 
 typedef struct	s_env
 {
