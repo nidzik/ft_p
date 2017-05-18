@@ -47,6 +47,7 @@ SRCFILESERVER  =	main.c \
 			utils.c
 
 SRCFILECLI  =	main.c \
+				gnl.c \
 		error.c
 
 SRCSERVER = $(addprefix $(SRCPATHSERVER)/,$(SRCFILESERVER))

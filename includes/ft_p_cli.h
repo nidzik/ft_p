@@ -19,5 +19,5 @@ typedef struct	s_env
 }		t_env;
 
 void	exit_error(char *err);
-
+int             get_next_line(const int fd, char **line);
 #endif

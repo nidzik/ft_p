@@ -32,7 +32,9 @@ static void send_cmd_and_receive(t_env *e)
 {
   int r;
   char buf[BUFSIZE];
-  
+  char  *oops;
+
+  oops = NULL;
   ft_bzero(buf,BUFSIZE);
   r = 0;
   while(1){
@@ -46,13 +48,21 @@ static void send_cmd_and_receive(t_env *e)
       ft_bzero(buf,256);
       r = 0;
 	  ft_putendl("receive");
-	  if (( r = read(e->socketid, buf,BUFSIZE)) < 0)
+	  //if (( r = read(e->socketid, buf,BUFSIZE)) < 0)
+	  while(r <= 0){
+		  if ((r = get_next_line(e->socketid,&oops)) < 0)
 		  exit_error("Error, can't write on the socket.");
-	  ft_putnbr(r);
-      buf[r] = '\0';
+		  //	  ft_putnbr(r);
+		  //      buf[r] = '\0';
       if (r < 0)
 		  exit_error("Erorr reading buf");
-	  ft_putendl(buf);
+	  //ft_print_array(oops);
+	  if (oops == NULL)
+		  break;
+	  else
+	  ft_putendl(oops);
+	  }
+	  //	  ft_putendl(buf);
 	  ft_bzero(buf,256);
 	  r = 0;
     }
