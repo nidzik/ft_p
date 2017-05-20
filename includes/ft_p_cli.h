@@ -8,7 +8,7 @@
 #include <errno.h>
 #include <arpa/inet.h>
 
-#define BUFSIZE 2058
+#define BUFSIZE 2048
 
 typedef struct	s_env
 {
@@ -18,6 +18,16 @@ typedef struct	s_env
   struct sockaddr_in	serv_sock;
 }		t_env;
 
+typedef struct  s_stream
+{
+    int         fd;
+    char        buf[BUFSIZE];
+    ssize_t     size;
+    size_t      cursor;
+} t_stream;
+
 void	exit_error(char *err);
 int             get_next_line(const int fd, char **line);
+int             read_until(t_stream *stream, char **str, char c);
+void            create_stream(int fd, t_stream *stream);
 #endif

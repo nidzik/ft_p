@@ -1,5 +1,5 @@
 #include "ft_p.h"
-
+#include <sys/param.h>
 char **drop(char **cmd)
 {
 //	if (ft_arraylen(cmd) == 1)
@@ -37,6 +37,24 @@ int			handle_ls(char **cmd, t_env *e)
 	return (0);
 }
 
+int handle_cd(char *cmd, t_env *e)
+{
+	char *cwd;
+	char *one;
+	char *tow;
+	
+	cwd = NULL;
+	ft_putendl(one = getcwd(cwd, MAXPATHLEN));
+	ft_putendl(cmd);
+	tow = ft_strcat(one, ft_strsub(cmd, 0, 3));
+	ft_putendl(tow);
+	if (chdir(cmd) < 0)
+		exit_error("Fail cd");
+	(void)(e);
+	write(SK, "\0", 1);
+	return(0);
+}
+
 void get_fct(char *cmd,	 t_env *e)
 {
 	char **array_cmd;
@@ -52,6 +70,8 @@ void get_fct(char *cmd,	 t_env *e)
 		handle_ls(array_cmd, e);
 	else if (ft_strncmp("pwd", cmd, 3) == 0)
 		get_pwd(cmd, e);
+	else if(ft_strncmp("cd", cmd, 2) == 0)
+		handle_cd(cmd, e);
 	else
 		write(SK, "error cmd\n",10);
 }
@@ -63,7 +83,8 @@ void get_pwd(char *buf, t_env *e)
 	(void)buf;
 	getcwd(path, sizeof(path));
 	ft_putnbr((int)sizeof(path));
-	path[ft_strlen(path)] = '\0';
+	path[ft_strlen(path)] = '\n';
+	path[ft_strlen(path) + 1] = '\0';
 	write(SK,path,ft_strlen(path));
 	write(0,path,sizeof(path));
 	bzero(path,1024);
