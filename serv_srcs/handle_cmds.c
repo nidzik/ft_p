@@ -37,19 +37,47 @@ int			handle_ls(char **cmd, t_env *e)
 	return (0);
 }
 
+char *ft_str_sub_until(char *str, int n)
+{
+	int i;
+	int j;
+	char *ret = malloc(sizeof(char) * ft_strlen(str));
+
+	j = 0;
+	if (n == 0 || str == NULL)
+		return (NULL);
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (i >= n)
+		{
+			ret[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	ret[i] = '\0';
+//	ft_putendl(ret);
+	return (ret);
+}
 int handle_cd(char *cmd, t_env *e)
 {
 	char *cwd;
 	char *one;
 	char *tow;
+	char *tree;
 	
 	cwd = NULL;
-	ft_putendl(one = getcwd(cwd, MAXPATHLEN));
+	(one = getcwd(cwd, MAXPATHLEN));
 	ft_putendl(cmd);
-	tow = ft_strcat(one, ft_strsub(cmd, 0, 3));
-	ft_putendl(tow);
-	if (chdir(cmd) < 0)
-		exit_error("Fail cd");
+	tow = ft_strcat(one, "/");
+	tree = ft_strcat(tow, ft_str_sub_until(cmd,3));
+		ft_putendl(tree);
+//	ft_putendl(ft_str_sub_until(cmd,3));
+	if (chdir("libft") < 0)
+		ft_putendl("oops cd fail");
+
+			//exit_error("Fail cd");
 	(void)(e);
 	write(SK, "\0", 1);
 	return(0);
