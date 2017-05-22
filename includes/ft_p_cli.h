@@ -30,4 +30,5 @@ void	exit_error(char *err);
 int             get_next_line(const int fd, char **line);
 int             read_until(t_stream *stream, char **str, char c);
 void            create_stream(int fd, t_stream *stream);
+
 #endif

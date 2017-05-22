@@ -38,7 +38,7 @@ static void send_cmd_and_receive(t_env *e)
 	r = 0;
 	i = 0;
 	while(1){
-		write(1,"ftp> ",4);
+		write(1,"\x1B[32mftp> \x1B[0m",14);
 		if ((r = read(0, buf, BUFSIZE)) > 0)
 		{
 			buf[r] = '\0';

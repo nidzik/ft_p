@@ -44,7 +44,7 @@ char *ft_str_sub_until(char *str, int n)
 	char *ret = malloc(sizeof(char) * ft_strlen(str));
 
 	j = 0;
-	if (n == 0 || str == NULL)
+	if (n == 0 || str == NULL )
 		return (NULL);
 	i = 0;
 	while (str[i] != '\0')
@@ -57,29 +57,26 @@ char *ft_str_sub_until(char *str, int n)
 		i++;
 	}
 	ret[i] = '\0';
-//	ft_putendl(ret);
+	if (ret == NULL || ft_strcmp(ret, "") == 0)
+		return (NULL);
 	return (ret);
 }
 int handle_cd(char *cmd, t_env *e)
 {
 	char *cwd;
-	char *one;
-	char *tow;
-	char *tree;
-	
+
 	cwd = NULL;
-	(one = getcwd(cwd, MAXPATHLEN));
-	ft_putendl(cmd);
-	tow = ft_strcat(one, "/");
-	tree = ft_strcat(tow, ft_str_sub_until(cmd,3));
-		ft_putendl(tree);
-//	ft_putendl(ft_str_sub_until(cmd,3));
-	if (chdir("libft") < 0)
-		ft_putendl("oops cd fail");
+	getcwd(cwd, MAXPATHLEN);
+	if (chdir(ft_strtrim(ft_str_sub_until(cmd,3))) < 0)
+		error_cmd_cd(SK, "cd", "No such file or directory.", ft_strtrim(ft_str_sub_until(cmd,3)));
+	else
+				write(SK, "SUCCESS\n\0", 9);
+
+//		ft_putendl("oops cd fail");
 
 			//exit_error("Fail cd");
 	(void)(e);
-	write(SK, "\0", 1);
+
 	return(0);
 }
 
