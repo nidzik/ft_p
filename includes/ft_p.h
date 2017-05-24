@@ -6,7 +6,7 @@
 #include <arpa/inet.h>
 #include "../libft/libft.h"
 #include <errno.h>
-
+#include <dirent.h>
 #define PORT 4242
 #define LSS 27763
 #define CDD 25444
@@ -16,6 +16,7 @@
 #define QUITT 29045
 #define IDK 2673
 #define SK e->accept_socket
+#define BUFSIZE 2048
 
 typedef struct	s_env
 {

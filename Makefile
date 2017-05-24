@@ -49,7 +49,7 @@ SRCFILESERVER  =	main.c \
 SRCFILECLI  =	main.c \
 				gnl.c \
 				error.c \
-				read_line.c
+#				read_line.c
 
 SRCSERVER = $(addprefix $(SRCPATHSERVER)/,$(SRCFILESERVER))
 OBJSERVER = $(SRCSERVER:$(SRCPATHSERVER)/%.c=$(OBJPATHSERVER)/%.o)
