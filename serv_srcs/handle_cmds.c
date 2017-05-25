@@ -144,7 +144,7 @@ void get_fct(char *cmd,	 t_env *e)
 		get_pwd(cmd, e);
 	else if(ft_strncmp("cd", cmd, 2) == 0)
 		handle_cd(cmd, e);
-	else if(ft_strncmp("get", cmd, 2) == 0)
+	else if(ft_strncmp("get", cmd, 3) == 0)
 		handle_get(cmd, e);
 	else
 		write(SK, "error cmd\n",10);

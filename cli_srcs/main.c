@@ -28,6 +28,15 @@ static void connect_to_socket(t_env * e)
 	ft_putendl("Welcome");
 }
 
+static int check_cmd(char *cmd, t_env *e)
+{
+	if (strncmp("get", cmd, 3) == 0)
+		{
+			handle_get(cmd, e);
+			return(0);
+		}
+	return (1);
+}
 static void send_cmd_and_receive(t_env *e)
 {
 	int r;
@@ -42,6 +51,8 @@ static void send_cmd_and_receive(t_env *e)
 		if ((r = read(0, buf, BUFSIZE)) > 0)
 		{
 			buf[r] = '\0';
+			if (check_cmd(buf, e) == 1)
+				return;
 			if (write(e->socketid, buf, ft_strlen(buf)) < 0)
 				exit_error("Error, can't write on the socket.");
 			ft_bzero(buf,BUFSIZE);

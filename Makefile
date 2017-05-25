@@ -49,6 +49,7 @@ SRCFILESERVER  =	main.c \
 SRCFILECLI  =	main.c \
 				gnl.c \
 				error.c \
+				handle_get.c 
 #				read_line.c
 
 SRCSERVER = $(addprefix $(SRCPATHSERVER)/,$(SRCFILESERVER))
