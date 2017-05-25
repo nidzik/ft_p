@@ -37,7 +37,7 @@ int			handle_ls(char **cmd, t_env *e)
 	return (0);
 
 }
-
+/*
 char *ft_str_sub_until(char *str, int n)
 {
 	int i;
@@ -61,33 +61,15 @@ char *ft_str_sub_until(char *str, int n)
 	if (ret == NULL || ft_strcmp(ret, "") == 0)
 		return (NULL);
 	return (ret);
-}
-
+	}*/
+/*
 int handle_get(char *cmd, t_env *e)
 {
-	/*	int file;
-	int pid;
-	struct rusage usage;
-	int status;
-	
-	if ((pid = fork()) < 0)
-		exit (0);
-	else if (pid == 0)
-		{
-			if ((file = open(ft_strtrim(ft_str_sub_until(cmd, 4)), O_RDONLY)) > 0)
-				dup2(SK, file);
-		exit (0);
-		}
-	else
-		wait4(pid, &status, 0, &usage);
-	
-	*/
-
-		int r;
+	int r;
 	char buf[BUFSIZE];
-	int i;
 	int file;
-	(void)e;
+
+	ft_putendl("ft_get");
 	ft_bzero(buf,BUFSIZE);
 	r = 0;
 	i = 0;
@@ -96,7 +78,6 @@ int handle_get(char *cmd, t_env *e)
 			{
 			if (r < 0)
 				exit_error("Erorr reading buf");
-			//			ft_putstr_fd(buf,SK);
 			write(SK, buf, r);
 			ft_bzero(buf,BUFSIZE);
 			if (r != BUFSIZE)
@@ -104,10 +85,8 @@ int handle_get(char *cmd, t_env *e)
 			r = 0;
 		}
 	}
-	
-
 return (0);
-}
+}*/
 int handle_cd(char *cmd, t_env *e)
 {
 	char *cwd;
@@ -146,6 +125,8 @@ void get_fct(char *cmd,	 t_env *e)
 		handle_cd(cmd, e);
 	else if(ft_strncmp("get", cmd, 3) == 0)
 		handle_get(cmd, e);
+	else if(ft_strncmp("put", cmd, 3) == 0)
+		handle_put(cmd, e);
 	else
 		write(SK, "error cmd\n",10);
 }

@@ -44,13 +44,14 @@ LFTRE = re
 SRCFILESERVER  =	main.c \
 			error.c \
 			handle_cmds.c \
-			utils.c
+			utils.c \
+			handle_get_put.c
 
 SRCFILECLI  =	main.c \
 				gnl.c \
 				error.c \
-				handle_get.c 
-#				read_line.c
+				handle_get.c \
+				handle_rest.c
 
 SRCSERVER = $(addprefix $(SRCPATHSERVER)/,$(SRCFILESERVER))
 OBJSERVER = $(SRCSERVER:$(SRCPATHSERVER)/%.c=$(OBJPATHSERVER)/%.o)
