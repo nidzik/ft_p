@@ -38,7 +38,7 @@ void    handle(int clifd);
 void get_pwd(char *buf, t_env *e);
 char **cmd_to_split(char *cmd);
 void    error_cmd_cd(int sk, char *cmd, char *error, char *args);
-int handle_get(char *cmd, t_env *e);
-int handle_put(char *cmd, t_env *e);
-
+int		handle_get(char *cmd, t_env *e);
+int		handle_put(char *cmd, t_env *e);
+void	handle_quit(char *cmd, t_env *e);
 #endif

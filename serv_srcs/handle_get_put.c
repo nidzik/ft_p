@@ -34,27 +34,20 @@ int handle_put(char *cmd, t_env *e)
     char *namefile;
 
     namefile = ft_strtrim(ft_str_sub_until(cmd, 4));
-//  ft_putendl(namefile);
+  ft_putendl(namefile);
     if ((file = open(ft_strtrim(ft_str_sub_until(cmd, 4)), O_WRONLY | O_CREAT, S_IRUSR | \
 S_IWUSR)) < 0 )
     {
         ft_putendl("ERROR can't open the file");
         return(1);
     }
-	//    if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
-	//  exit_error("Error, can't write on the socket.");
     ft_bzero(buf,BUFSIZE);
-    //ft_putchar('.');
-    while (( r  = read(e->socketid, buf,BUFSIZE)) > 0){
-        if (r < 0)
-            exit_error("Erorr reading buf");
-		//write(1, buf, r);
-        write(file, buf, r);
-        ft_bzero(buf,BUFSIZE);
-        if (r != BUFSIZE)
-            break;
-        r = 0;
-    }
+	write(SK,"OK\0",3);
+    ft_putchar('.');
+	while ((r = read(SK, buf, BUFSIZE)) >= 0 )
+	write(file, buf, r);
+	if (r < 0)
+	ft_putendl("eror read ");
     close(file);
     ft_putendl("closing file oklm");
 	return (0);

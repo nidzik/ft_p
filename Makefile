@@ -45,7 +45,8 @@ SRCFILESERVER  =	main.c \
 			error.c \
 			handle_cmds.c \
 			utils.c \
-			handle_get_put.c
+			handle_get_put.c \
+			handle_quit.c
 
 SRCFILECLI  =	main.c \
 				gnl.c \
