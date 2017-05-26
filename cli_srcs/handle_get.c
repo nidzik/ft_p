@@ -40,20 +40,24 @@ void handle_put(char *cmd, t_env *e)
     char buf[BUFSIZE];
     int file;
 
-    ft_putendl("ft_get");
+    ft_putendl(ft_strtrim(ft_str_sub_until(cmd, 4)));
     ft_bzero(buf,BUFSIZE);
     r = 0;
-    if ((file = open(ft_strtrim(ft_str_sub_until(cmd, 4)), O_RDONLY)) > 0){
-        while (( r  = read(file, buf,BUFSIZE)) != EOF)
-            {
-            if (r < 0)
-                exit_error("Erorr reading buf");
-            write(SK, buf, r);
-            ft_bzero(buf,BUFSIZE);
-            if (r != BUFSIZE)
-                break;
-            r = 0;
-        }
-    }
-return;
+    if ((file = open(ft_strtrim(ft_str_sub_until(cmd, 4)), O_RDONLY)) > 0)
+		{
+			while (( r  = read(file, buf,BUFSIZE)) != EOF)
+				{
+					if (r < 0)
+						exit_error("Erorr reading buf");
+					write(SK, buf, r);
+					ft_bzero(buf,BUFSIZE);
+					if (r != BUFSIZE)
+						break;
+					r = 0;
+				}
+		}
+			else
+				ft_putendl("error open file");
+	
+	return;
 }

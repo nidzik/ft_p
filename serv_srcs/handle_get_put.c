@@ -41,13 +41,14 @@ S_IWUSR)) < 0 )
         ft_putendl("ERROR can't open the file");
         return(1);
     }
-    if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
-        exit_error("Error, can't write on the socket.");
+	//    if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
+	//  exit_error("Error, can't write on the socket.");
     ft_bzero(buf,BUFSIZE);
-    ft_putchar('.');
+    //ft_putchar('.');
     while (( r  = read(e->socketid, buf,BUFSIZE)) > 0){
         if (r < 0)
             exit_error("Erorr reading buf");
+		//write(1, buf, r);
         write(file, buf, r);
         ft_bzero(buf,BUFSIZE);
         if (r != BUFSIZE)
