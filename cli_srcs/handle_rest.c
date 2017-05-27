@@ -21,3 +21,11 @@ void handle_rest(char *cmd, t_env *e)
 			break;
 	}
 }
+
+void handle_quit(char *cmd, t_env *e)
+{	
+if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
+		exit_error("Error, can't write on the socket.");
+	free(e);
+	exit(0);
+}

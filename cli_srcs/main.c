@@ -30,18 +30,20 @@ static void connect_to_socket(t_env * e)
 
 static int check_cmd(char *cmd, t_env *e)
 {
-	if (strncmp("get", cmd, 3) == 0)
+	if (ft_strncmp("get", cmd, 3) == 0)
 	{
 		ft_putendl("go to handle_get");
 		handle_get(cmd, e);
 		return(1);
 	}
-	else if (strncmp("put", cmd, 3) == 0)
+	else if (ft_strncmp("put", cmd, 3) == 0)
 	{
 		ft_putendl("go to handle_put");
 		handle_put(cmd, e);
 		return(1);
 	}
+	else if (ft_strequ("quit", cmd) == 0)
+		handle_quit(cmd, e);
 	else
 	{
 		ft_putendl("go to handle_rest");

@@ -34,4 +34,5 @@ void            create_stream(int fd, t_stream *stream);
 void			handle_get(char *cmd, t_env *e);
 void			handle_put(char *cmd, t_env *e);
 void			handle_rest(char *cmd, t_env *e);
+void			handle_quit(char *cmd, t_env *e);
 #endif

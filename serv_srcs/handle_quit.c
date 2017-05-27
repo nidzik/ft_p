@@ -5,6 +5,6 @@
 void handle_quit(char *cmd, t_env *e)
 {
 	free(e);
-	free (cmd);
+	(void)cmd;
 	exit(0);
 }
