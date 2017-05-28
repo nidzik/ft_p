@@ -7,11 +7,14 @@ int handle_get(char *cmd, t_env *e)
     int r;
     char buf[BUFSIZE];
     int file;
+	char **arr;
 
+	arr = NULL;
+	arr = ft_strsplit(ft_strtrim(cmd), ' ');
     ft_putendl("ft_get");
     ft_bzero(buf,BUFSIZE);
     r = 0;
-    if ((file = open(ft_strtrim(ft_str_sub_until(cmd, 4)), O_RDONLY)) > 0){
+    if ((file = open(arr[1], O_RDONLY)) > 0){
         while (( r  = read(file, buf,BUFSIZE)) != EOF)
             {
             if (r < 0)
@@ -22,7 +25,11 @@ int handle_get(char *cmd, t_env *e)
                 break;
             r = 0;
         }
+			close(file);
     }
+	else
+		write (SK,"err\n\0",5);
+
 return (0);
 }
 

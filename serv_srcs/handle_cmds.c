@@ -33,9 +33,17 @@ int			handle_ls(char **cmd, t_env *e)
 int handle_cd(char *cmd, t_env *e)
 {
 	char *cwd;
-
+	char **arrcmd;
+	
+	arrcmd = NULL;
 	cwd = NULL;
 	getcwd(cwd, MAXPATHLEN);
+	arrcmd = ft_strsplit(ft_strtrim(cmd), ' ');
+	if (arrcmd[1] == NULL)
+	{
+		error_cmd_cd(SK, cmd, "", NULL);
+		return(0);
+	}
 	if (chdir(ft_strtrim(ft_str_sub_until(cmd,3))) < 0)
 		error_cmd_cd(SK, "cd", "No such file or directory.", ft_strtrim(ft_str_sub_until(cmd,3)));
 	else
@@ -73,12 +81,12 @@ void get_fct(char *cmd,	 t_env *e)
 			ft_putendl("go to handle put server ");
 			handle_put(ft_strtrim(cmd), e);
 		}
-	else if(ft_strcmp("quit",cmd))
+	else if(ft_strequ("quit",cmd) == 1)
 		handle_quit(cmd, e);
 	else
 		{
 			ft_putendl("cmd not found");
-			write(SK, "error cmd\n",10);
+			write(SK, "ERROR : command not found\n\0",27);
 		}
 }
 

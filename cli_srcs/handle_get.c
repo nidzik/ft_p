@@ -9,10 +9,13 @@ void handle_get(char *cmd, t_env *e)
 	int r;
 	char buf[BUFSIZE];
 	char *namefile;
+	char **arr;
 
+	arr = NULL;
+	arr = ft_strsplit(ft_strtrim(cmd), ' ');
 	namefile = ft_strtrim(ft_str_sub_until(cmd, 4));
-//	ft_putendl(namefile);
-	if ((file = open(ft_strtrim(ft_str_sub_until(cmd, 4)), O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) < 0 )
+	ft_putendl(arr[1]);
+	if ((file = open(arr[1], O_WRONLY)) < 0 )
 	{
 		ft_putendl("ERROR can't open the file");
 		return;
@@ -66,6 +69,6 @@ void handle_put(char *cmd, t_env *e)
 		}
 			else
 				ft_putendl("error open file");
-	
+	close(file);	
 	return;
 }

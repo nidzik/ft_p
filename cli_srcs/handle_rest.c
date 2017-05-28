@@ -11,7 +11,6 @@ void handle_rest(char *cmd, t_env *e)
 		exit_error("Error, can't write on the socket.");
 	ft_bzero(buf,BUFSIZE);
 	r = 0;
-	ft_putendl("receive");
 	while (( r  = read(e->socketid, buf,BUFSIZE)) != EOF){
 		if (r < 0)
 			exit_error("Erorr reading buf");
