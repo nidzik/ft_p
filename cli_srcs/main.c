@@ -28,6 +28,28 @@ static void connect_to_socket(t_env * e)
 	ft_putendl("Welcome");
 }
 
+static int check_cmd(char *cmd, t_env *e)
+{
+	if (ft_strncmp("get", cmd, 3) == 0)
+	{
+		handle_get(cmd, e);
+		return(1);
+	}
+	else if (ft_strncmp("put", cmd, 3) == 0)
+	{
+		handle_put(cmd, e);
+		return(1);
+	}
+	else if (ft_strequ("quit", cmd) == 1)
+		handle_quit(cmd, e);
+	else
+	{
+		handle_rest(cmd,e);
+		return (1);
+	}
+	return (0);
+}
+
 static void send_cmd_and_receive(t_env *e)
 {
 	int r;
@@ -42,6 +64,9 @@ static void send_cmd_and_receive(t_env *e)
 		if ((r = read(0, buf, BUFSIZE)) > 0)
 		{
 			buf[r] = '\0';
+			(check_cmd(buf, e));
+			  
+/*			
 			if (write(e->socketid, buf, ft_strlen(buf)) < 0)
 				exit_error("Error, can't write on the socket.");
 			ft_bzero(buf,BUFSIZE);
@@ -54,7 +79,7 @@ static void send_cmd_and_receive(t_env *e)
 				ft_bzero(buf,BUFSIZE);
 				if (r != BUFSIZE)
 					break;
-			}
+					}*/
 			r = 0;
 		}
 	}

@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 
 #define BUFSIZE 2048
+#define SK e->socketid
 
 typedef struct	s_env
 {
@@ -30,5 +31,8 @@ void	exit_error(char *err);
 int             get_next_line(const int fd, char **line);
 int             read_until(t_stream *stream, char **str, char c);
 void            create_stream(int fd, t_stream *stream);
-
+void			handle_get(char *cmd, t_env *e);
+void			handle_put(char *cmd, t_env *e);
+void			handle_rest(char *cmd, t_env *e);
+void			handle_quit(char *cmd, t_env *e);
 #endif

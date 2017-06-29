@@ -71,6 +71,7 @@ void				ft_striter(char *s, void (*f)(char *));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 char				*ft_strmap(char const *s, char (*f)(char));
 char				*ft_strsub(char const *s1, unsigned int start, size_t len);
+char				*ft_str_sub_until(char *str, int n);
 void				ft_strclr(char *s);
 int					ft_strequ(char const *s1, char const *s2);
 int					ft_strnequ(char const *s1, char const *s2, size_t n);

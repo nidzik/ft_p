@@ -6,7 +6,7 @@
 #include <arpa/inet.h>
 #include "../libft/libft.h"
 #include <errno.h>
-
+#include <dirent.h>
 #define PORT 4242
 #define LSS 27763
 #define CDD 25444
@@ -16,6 +16,7 @@
 #define QUITT 29045
 #define IDK 2673
 #define SK e->accept_socket
+#define BUFSIZE 2048
 
 typedef struct	s_env
 {
@@ -37,4 +38,7 @@ void    handle(int clifd);
 void get_pwd(char *buf, t_env *e);
 char **cmd_to_split(char *cmd);
 void    error_cmd_cd(int sk, char *cmd, char *error, char *args);
+int		handle_get(char *cmd, t_env *e);
+int		handle_put(char *cmd, t_env *e);
+void	handle_quit(char *cmd, t_env *e);
 #endif

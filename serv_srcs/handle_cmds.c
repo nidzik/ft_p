@@ -1,13 +1,5 @@
 #include "ft_p.h"
 #include <sys/param.h>
-char **drop(char **cmd)
-{
-//	if (ft_arraylen(cmd) == 1)
-//		return (NULL);
-	if (cmd != NULL)
-		(void)*cmd++;
-	return cmd;	
-}
 
 int			handle_ls(char **cmd, t_env *e)
 {
@@ -24,57 +16,42 @@ int			handle_ls(char **cmd, t_env *e)
 	if ((pid = fork()) < 0)
 		exit (0);
 	else if (pid == 0)
-	{
-		i = -1;
-		while (++i < 3)
-			if (stdio[i] != -1 && stdio[i] != i)
-				dup2(stdio[i], i);
+		{
+			i = -1;
+			while (++i < 3)
+				if (stdio[i] != -1 && stdio[i] != i)
+					dup2(stdio[i], i);
 			execv("/bin/ls", (cmd));
-		exit(1);
-	}
+			exit(1);
+		}
 	else
 		wait4(pid, &status, 0, &usage);
 	return (0);
+
 }
 
-char *ft_str_sub_until(char *str, int n)
-{
-	int i;
-	int j;
-	char *ret = malloc(sizeof(char) * ft_strlen(str));
-
-	j = 0;
-	if (n == 0 || str == NULL )
-		return (NULL);
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (i >= n)
-		{
-			ret[j] = str[i];
-			j++;
-		}
-		i++;
-	}
-	ret[i] = '\0';
-	if (ret == NULL || ft_strcmp(ret, "") == 0)
-		return (NULL);
-	return (ret);
-}
 int handle_cd(char *cmd, t_env *e)
 {
 	char *cwd;
-
+	char **arrcmd;
+	
+	arrcmd = NULL;
 	cwd = NULL;
 	getcwd(cwd, MAXPATHLEN);
+	arrcmd = ft_strsplit(ft_strtrim(cmd), ' ');
+	if (arrcmd[1] == NULL)
+	{
+		error_cmd_cd(SK, cmd, "", NULL);
+		return(0);
+	}
 	if (chdir(ft_strtrim(ft_str_sub_until(cmd,3))) < 0)
 		error_cmd_cd(SK, "cd", "No such file or directory.", ft_strtrim(ft_str_sub_until(cmd,3)));
 	else
-				write(SK, "SUCCESS\n\0", 9);
+		write(SK, "SUCCESS\n\0", 9);
 
-//		ft_putendl("oops cd fail");
+	//		ft_putendl("oops cd fail");
 
-			//exit_error("Fail cd");
+	//exit_error("Fail cd");
 	(void)(e);
 
 	return(0);
@@ -93,12 +70,24 @@ void get_fct(char *cmd,	 t_env *e)
 	//array_cmd[i][ft_strlen(array_cmd[i]) -1 ] = '\0';//trim_array(array_cmd);
 	if (ft_strncmp("ls", cmd, 2) == 0)
 		handle_ls(array_cmd, e);
-	else if (ft_strncmp("pwd", cmd, 3) == 0)
+	else if (ft_strcmp("pwd", cmd) == 0)
 		get_pwd(cmd, e);
 	else if(ft_strncmp("cd", cmd, 2) == 0)
 		handle_cd(cmd, e);
+	else if(ft_strncmp("get ", cmd, 4) == 0)
+		handle_get(cmd, e);
+	else if (ft_strncmp("put ", cmd, 4) == 0)
+		{
+			ft_putendl("go to handle put server ");
+			handle_put(ft_strtrim(cmd), e);
+		}
+	else if(ft_strequ("quit",cmd) == 1)
+		handle_quit(cmd, e);
 	else
-		write(SK, "error cmd\n",10);
+		{
+			ft_putendl("cmd not found");
+			write(SK, "ERROR : command not found\n\0",27);
+		}
 }
 
 void get_pwd(char *buf, t_env *e)
