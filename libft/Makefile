@@ -6,7 +6,7 @@
 #    By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/11 10:46:15 by nidzik            #+#    #+#              #
-#    Updated: 2015/05/09 17:51:43 by nidzik           ###   ########.fr        #
+#    Updated: 2018/03/01 22:58:19 by nidzik           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -26,7 +26,7 @@ SRCS = \
 		ft_strjoin.c ft_strnew.c ft_lstnew.c ft_lstadd.c ft_strlcat.c \
 		ft_strdel.c ft_strsplit.c ft_itoa.c ft_strmap.c ft_striteri.c ft_strsub.c \
 		ft_strmapi.c ft_strtrim.c ft_strdup.c ft_strsplitwith.c ft_printarray.c \
-		ft_arraylen.c ft_strsubuntil.c
+		ft_arraylen.c ft_strsubuntil.c ft_strsearch.c
 
 OBJECTS = $(SRCS:%.c=%.o)
 

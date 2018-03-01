@@ -33,6 +33,6 @@ int             read_until(t_stream *stream, char **str, char c);
 void            create_stream(int fd, t_stream *stream);
 void			handle_get(char *cmd, t_env *e);
 void			handle_put(char *cmd, t_env *e);
-void			handle_rest(char *cmd, t_env *e);
+int				handle_rest(char *cmd, t_env *e);
 void			handle_quit(char *cmd, t_env *e);
 #endif

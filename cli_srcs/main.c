@@ -30,22 +30,29 @@ static void connect_to_socket(t_env * e)
 
 static int check_cmd(char *cmd, t_env *e)
 {
+	char	buf[128];
+
+	int ret ;
+	ret = 0;
+	ft_bzero(buf, 128);
 	if (ft_strncmp("get", cmd, 3) == 0)
 	{
 		handle_get(cmd, e);
-		return(1);
+		return(1); // care
 	}
 	else if (ft_strncmp("put", cmd, 3) == 0)
 	{
 		handle_put(cmd, e);
-		return(1);
+		return(1); // careful 
 	}
 	else if (ft_strequ("quit", cmd) == 1)
 		handle_quit(cmd, e);
 	else
+		ret = handle_rest(cmd,e);
+	if (ret != -1 && read(SK, buf, BUFSIZE) > 0)
 	{
-		handle_rest(cmd,e);
-		return (1);
+		ft_putstr(buf);
+		return 0 ;
 	}
 	return (0);
 }
@@ -59,29 +66,18 @@ static void send_cmd_and_receive(t_env *e)
 	ft_bzero(buf,BUFSIZE);
 	r = 0;
 	i = 0;
-	while(1){
-		write(1,"\x1B[32mftp> \x1B[0m",14);
-		if ((r = read(0, buf, BUFSIZE)) > 0)
+	write(1,"\x1B[32mftp> \x1B[0m",14);
+	while ((r = read(0, buf, BUFSIZE)) > 0)
+	{
+		
+		buf[r] = '\0';
+		if (ft_strlen(buf) > 1)
 		{
-			buf[r] = '\0';
+			ft_putendl("fck_U_good");
 			(check_cmd(buf, e));
-			  
-/*			
-			if (write(e->socketid, buf, ft_strlen(buf)) < 0)
-				exit_error("Error, can't write on the socket.");
-			ft_bzero(buf,BUFSIZE);
-			r = 0;
-			ft_putendl("receive");
-			while (( r  = read(e->socketid, buf,BUFSIZE)) != EOF){
-				if (r < 0)
-					exit_error("Erorr reading buf");
-				ft_putstr(buf);
-				ft_bzero(buf,BUFSIZE);
-				if (r != BUFSIZE)
-					break;
-					}*/
-			r = 0;
 		}
+		r = 0;
+		write(1,"\x1B[32mftp> \x1B[0m",14);
 	}
 }
 

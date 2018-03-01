@@ -38,12 +38,17 @@ static void ft_ftp(t_env *e)
 		{
 			if (r <= 0)
 				exit_error("Error while readding ");
-            buf[r] = '\0';
-			get_fct(buf, e);
+			if (r > 127)
+				buf[127] = '\0';
+			else
+				buf[r] = '\0';
+				get_fct(buf, e);
             ft_bzero(buf, 128);
 			req = 0;
 			r = 0;
 		}
+		else
+			break;
 }
 
 static void boucle_accept(t_env *e)

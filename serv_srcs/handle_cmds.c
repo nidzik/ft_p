@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_cmds.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/01 23:20:46 by nidzik            #+#    #+#             */
+/*   Updated: 2018/03/01 23:24:53 by nidzik           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_p.h"
 #include <sys/param.h>
 
@@ -26,6 +38,7 @@ int			handle_ls(char **cmd, t_env *e)
 		}
 	else
 		wait4(pid, &status, 0, &usage);
+	write(SK, "SUCCESS\n\0", 9);
 	return (0);
 
 }
@@ -68,9 +81,9 @@ void get_fct(char *cmd,	 t_env *e)
 	array_cmd = ft_strsplit(ft_strtrim(cmd), ' ');
 	i = ft_arraylen(array_cmd) -1 ;
 	//array_cmd[i][ft_strlen(array_cmd[i]) -1 ] = '\0';//trim_array(array_cmd);
-	if (ft_strncmp("ls", cmd, 2) == 0)
+	if (ft_strncmp("ls\0", array_cmd[0], 3) == 0)
 		handle_ls(array_cmd, e);
-	else if (ft_strcmp("pwd", cmd) == 0)
+	else if (ft_strncmp("pwd\n", cmd, 4) == 0)
 		get_pwd(cmd, e);
 	else if(ft_strncmp("cd", cmd, 2) == 0)
 		handle_cd(cmd, e);
@@ -86,7 +99,7 @@ void get_fct(char *cmd,	 t_env *e)
 	else
 		{
 			ft_putendl("cmd not found");
-			write(SK, "ERROR : command not found\n\0",27);
+			write(SK, "command not found\nERROR\n\0",28);
 		}
 }
 
@@ -94,12 +107,14 @@ void get_pwd(char *buf, t_env *e)
 {
 	char path[1024];
 	
+	ft_bzero(path, 1024);
 	(void)buf;
 	getcwd(path, sizeof(path));
 	ft_putnbr((int)sizeof(path));
 	path[ft_strlen(path)] = '\n';
 	path[ft_strlen(path) + 1] = '\0';
 	write(SK,path,ft_strlen(path));
-	write(0,path,sizeof(path));
-	bzero(path,1024);
+	write(SK, "SUCCESS\n\0", 9);
+	write(1,path,ft_strlen(path));
+	ft_bzero(path,1024);
 }
