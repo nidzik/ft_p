@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/02 12:05:23 by nidzik            #+#    #+#             */
+/*   Updated: 2018/03/02 12:06:22 by nidzik           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "ft_p_cli.h"
 
 static void init_env(t_env *e, char **av)
@@ -72,10 +83,7 @@ static void send_cmd_and_receive(t_env *e)
 		
 		buf[r] = '\0';
 		if (ft_strlen(buf) > 1)
-		{
-			ft_putendl("fck_U_good");
 			(check_cmd(buf, e));
-		}
 		r = 0;
 		write(1,"\x1B[32mftp> \x1B[0m",14);
 	}
