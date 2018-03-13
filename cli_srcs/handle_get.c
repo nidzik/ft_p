@@ -13,9 +13,12 @@ void handle_get(char *cmd, t_env *e)
 
 	arr = NULL;
 	arr = ft_strsplit(ft_strtrim(cmd), ' ');
-	namefile = ft_strtrim(ft_str_sub_until(cmd, 4));
+	if (ft_arraylen(arr) == 2)
+		namefile = arr[1];
+	else
+		namefile = ft_str_last_slash(arr[1]);
 	ft_putendl(arr[1]);
-	if ((file = open(arr[1], O_WRONLY)) < 0 )
+	if ((file = open(namefile, O_WRONLY)) < 0 )
 	{
 		ft_putendl("ERROR can't open the file");
 		return;
@@ -23,7 +26,7 @@ void handle_get(char *cmd, t_env *e)
 	if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
 		exit_error("Error, can't write on the socket.");
 	ft_bzero(buf,BUFSIZE);
-	ft_putchar('.'); 
+	ft_putchar('.');
 	while (( r  = read(e->socketid, buf,BUFSIZE)) > 0){
 		if (r < 0)
 			exit_error("Erorr reading buf");

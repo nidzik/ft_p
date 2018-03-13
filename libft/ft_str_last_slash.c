@@ -16,15 +16,28 @@ char *ft_str_last_slash(char *str)
 {
 	char *ptr;
 	char *save;
-
+	int i = 0;
 	if (str == NULL)
 		return (NULL);
 	save = str;
 	ptr = NULL;
 	while (*str)
 	{
-		if (*str == '/')
-			ptr = 
+		if (*str == '/' && *(str+1) && *(str+1) != '\0')
+		{
+			while (str[i] == '/')
+			{
+				if (str[i+1] == '\0')
+					return ptr;
+				else
+					i++;
+			}
+			i = 0;
+			ptr = str+1;
+		}
 		str++;
+
 	}
+	str = save;
+	return (ptr);
 }

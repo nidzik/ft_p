@@ -1,36 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsearch.c                                     :+:      :+:    :+:   */
+/*   ft_strtrimchar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/01 22:51:21 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/01 23:00:24 by nidzik           ###   ########.fr       */
+/*   Created: 2018/03/09 13:58:32 by nidzik            #+#    #+#             */
+/*   Updated: 2018/03/13 20:09:36 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			ft_strsearch(char *src, char *find)
+char *ft_strtrimchar(char *s, char o)
 {
-	int		i;
+	int				d;
+	unsigned int	c;
+	int				start;
+	char			*new;
 
-	i = 0;
-	if (!src || !find)
-		return (-1);
-	while (*src)
+	d = 0;
+	c = 0;
+	start = 0;
+	new = ft_strnew(ft_strlen(s));
+	while (c < ft_strlen(s))
 	{
-		if (*src == find[i])
-		{
-			while (find[i] && src[i] == find[i])
-				i++;
-		}
-		if (i == (int)ft_strlen(find))
-			return 1;
+		if (!start && s[c] == o)
+			c++;
 		else
-			i = 0;
-		src++;
+		{
+			start = 1;
+			new[d++] = s[c++];
+		}
 	}
-	return 0;
+	d--;
+	while (new[d] == o)
+		new[d--] = '\0';
+	return (new);
 }

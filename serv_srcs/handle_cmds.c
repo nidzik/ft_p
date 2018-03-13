@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 23:20:46 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/01 23:24:53 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/13 21:06:35 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,14 @@ int			handle_ls(char **cmd, t_env *e)
 	struct rusage   usage;
 	int					i;
 	int stdio[3];
+	char *gg;
 
+	if (cmd[1] && check_path(cmd[1], "/Users/nidzik/Documents/ft_p/") != -1)	
+		gg = cmd[1];
+	else
+		gg = ".\0";
+	ft_putendl("checkDone.");
+//	printf("cmd1 = %s, gg = %s\n",cmd[1] , gg);fflush(stdout);
 	stdio[1] = SK;
 	stdio[2] = SK;
 	ft_print_array(cmd);
@@ -33,7 +40,7 @@ int			handle_ls(char **cmd, t_env *e)
 			while (++i < 3)
 				if (stdio[i] != -1 && stdio[i] != i)
 					dup2(stdio[i], i);
-			execv("/bin/ls", (cmd));
+			execv("/bin/ls", &gg);
 			exit(1);
 		}
 	else
