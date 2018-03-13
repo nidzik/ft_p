@@ -1,12 +1,26 @@
 #ifndef FT_P_H
 #define FT_P_H
 
-#include <sys/socket.h>
+#ifdef __APPLE__
 #include <netdb.h>
+#include <sys/socket.h>
 #include <arpa/inet.h>
-#include "../libft/libft.h"
 #include <errno.h>
+#include "../libft/libft.h"
 #include <dirent.h>
+#elif __linux__
+#include <sys/socket.h>
+#include "../libft/libft.h"
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/wait.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/ip.h>
+#else
+#error  "unknown plateform"
+#endif
 #define PORT 4242
 #define LSS 27763
 #define CDD 25444
@@ -41,4 +55,6 @@ void    error_cmd_cd(int sk, char *cmd, char *error, char *args);
 int		handle_get(char *cmd, t_env *e);
 int		handle_put(char *cmd, t_env *e);
 void	handle_quit(char *cmd, t_env *e);
+int		check_path(char *path, char *ref_path);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/04 15:27:34 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/01 22:57:57 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/13 20:07:52 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,11 @@ int					ft_strequ(char const *s1, char const *s2);
 int					ft_strnequ(char const *s1, char const *s2, size_t n);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				*ft_strtrim(const char *s);
+char				*ft_strtrimchar(char *s, char o);
 char				**ft_strsplitwith(char *str, char *seps, size_t *count);
 int					ft_strsearch(char *src, char *find);
+char				*ft_str_last_slash(char *str);
+
 
 void				*ft_memalloc(size_t size);
 void				ft_bzero(void *s, size_t n);
