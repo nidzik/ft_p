@@ -8,7 +8,11 @@
 #include <errno.h>
 #include "../libft/libft.h"
 #include <dirent.h>
+#include <sys/param.h>
+#include <sys/stat.h>
 #elif __linux__
+#include <sys/stat.h>
+#include <sys/param.h>
 #include <sys/socket.h>
 #include "../libft/libft.h"
 #include <sys/types.h>
@@ -56,5 +60,5 @@ int		handle_get(char *cmd, t_env *e);
 int		handle_put(char *cmd, t_env *e);
 void	handle_quit(char *cmd, t_env *e);
 int		check_path(char *path, char *ref_path);
-
+int		connect_me(int sockid);
 #endif

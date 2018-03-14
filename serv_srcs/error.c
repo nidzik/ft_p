@@ -9,9 +9,9 @@ void exit_error(char *err)
 void error_cmd_cd(int sk, char *cmd, char *erorr, char *args)
 {
 	if (args == NULL || ft_strcmp(args, "") == 0)
-		write(sk, "Usage : cd <PATH>\n\0", 19);
+		write(sk, "Usage : cd <PATH>\nERROR\n\0", 25);
 	else
-		write(sk, "ERROR : cd : NoSUCH file dor fcking directory\n\0", 47);
+		write(sk, "cd : No such file or directory\nERROR\n\0", 38);
 //	ft_putstr_fd(cmd, sk);
 //	ft_putstr_fd(" : ", sk);
 //	ft_putendl_fd(erorr, sk);

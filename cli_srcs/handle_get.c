@@ -1,5 +1,14 @@
-
-//HEADER
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_get.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/14 19:06:15 by nidzik            #+#    #+#             */
+/*   Updated: 2018/03/14 22:19:42 by nidzik           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_p_cli.h"
 
@@ -14,11 +23,12 @@ void handle_get(char *cmd, t_env *e)
 	arr = NULL;
 	arr = ft_strsplit(ft_strtrim(cmd), ' ');
 	if (ft_arraylen(arr) == 2)
-		namefile = arr[1];
-	else
 		namefile = ft_str_last_slash(arr[1]);
-	ft_putendl(arr[1]);
-	if ((file = open(namefile, O_WRONLY)) < 0 )
+	else if (ft_arraylen(arr) >= 3)
+		namefile = arr[2];
+	ft_putendl(namefile);
+	if ((file = open(namefile, O_WRONLY | O_CREAT, S_IRUSR |\
+					 S_IWUSR)) < 0 )
 	{
 		ft_putendl("ERROR can't open the file");
 		return;
@@ -30,6 +40,11 @@ void handle_get(char *cmd, t_env *e)
 	while (( r  = read(e->socketid, buf,BUFSIZE)) > 0){
 		if (r < 0)
 			exit_error("Erorr reading buf");
+		if (ft_strsearch(buf, "ERROR\n"))
+        {
+			write(1, buf, r);
+			break;
+		}
 		write(file, buf, r);
 		ft_bzero(buf,BUFSIZE);
 		if (r != BUFSIZE)

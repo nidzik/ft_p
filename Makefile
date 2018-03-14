@@ -6,7 +6,7 @@
 #    By: nidzik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/11 10:34:54 by nidzik            #+#    #+#              #
-#    Updated: 2017/02/27 19:17:22 by nidzik           ###   ########.fr        #
+#    Updated: 2018/03/14 22:49:47 by nidzik           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -46,7 +46,8 @@ SRCFILESERVER  =	main.c \
 			handle_cmds.c \
 			utils.c \
 			handle_get_put.c \
-			handle_quit.c
+			handle_quit.c \
+			connect.c
 
 SRCFILECLI  =	main.c \
 				gnl.c \

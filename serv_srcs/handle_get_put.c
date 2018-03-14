@@ -1,4 +1,14 @@
-/*	HEADER	*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_get_put.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/14 22:02:21 by nidzik            #+#    #+#             */
+/*   Updated: 2018/03/14 22:25:09 by nidzik           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_p.h"
 
@@ -8,13 +18,22 @@ int handle_get(char *cmd, t_env *e)
     char buf[BUFSIZE];
     int file;
 	char **arr;
+	char *tmp;
 
+	tmp = NULL;
 	arr = NULL;
 	arr = ft_strsplit(ft_strtrim(cmd), ' ');
     ft_putendl("ft_get");
     ft_bzero(buf,BUFSIZE);
     r = 0;
-    if ((file = open(arr[1], O_RDONLY)) > 0){
+	tmp = ft_strdellastslash(cmd);
+    if (check_path(tmp, "/Users/nidzik/Documents/ft_p/") == -1 )
+	{
+		write(SK,"get : no such file or directory\nERROR\n\0",39);
+		return (0);
+	}
+	if ((file = open(arr[1], O_RDONLY)) > 0)
+{
         while (( r  = read(file, buf,BUFSIZE)) != EOF)
             {
             if (r < 0)
@@ -28,9 +47,10 @@ int handle_get(char *cmd, t_env *e)
 			close(file);
     }
 	else
-		write (SK,"err\n\0",5);
-
-return (0);
+		write(SK,"ERROR\n\0",5);
+	if (tmp)
+		free(tmp);
+	return (0);
 }
 
 int handle_put(char *cmd, t_env *e)

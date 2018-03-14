@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 12:05:23 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/02 12:06:22 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/14 17:02:36 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_p_cli.h"
@@ -62,6 +62,7 @@ static int check_cmd(char *cmd, t_env *e)
 		ret = handle_rest(cmd,e);
 	if (ret != -1 && read(SK, buf, BUFSIZE) > 0)
 	{
+		ft_putendl("readding...");
 		ft_putstr(buf);
 		return 0 ;
 	}

@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 21:27:11 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/01 23:55:29 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/14 22:18:33 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,21 @@ int handle_rest(char *cmd, t_env *e)
 {
 	int r;
     char buf[BUFSIZE];
-	
+	int i;
+
+	i = 0;
 	if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
 		exit_error("Error, can't write on the socket.");
 	ft_bzero(buf,BUFSIZE);
 	r = 0;
-	if (( r  = read(e->socketid, buf,BUFSIZE)) > 0){
+	while (( r  = read(e->socketid, buf,BUFSIZE)) > 0){
 		if (r <= 0)
 			exit_error("Erorr reading buf");
-		if (r < BUFSIZE - 1 )
-			buf[r] = '\0';
-		ft_putstr(buf);
+//		if (r <= BUFSIZE )
+		//				buf[r] = '\0';
+		while (i < BUFSIZE)
+			ft_putchar(buf[i++]);
+		i = 0;
 		if (ft_strsearch(buf, "ERROR\n") || ft_strsearch(buf, "SUCCESS"))
 		{
 			ft_bzero(buf,BUFSIZE);
