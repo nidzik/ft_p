@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 12:05:23 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/14 17:02:36 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/15 22:06:26 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_p_cli.h"
@@ -16,6 +16,7 @@ static void init_env(t_env *e, char **av)
 	e->port = ft_atoi(av[2]);
 	e->socketid = 0;
 	e->serv = gethostbyname(av[1]);
+	e->ref_path = NULL;
 	if (e->serv == NULL)
     {
 		ft_putendl("No such ho");
@@ -57,7 +58,10 @@ static int check_cmd(char *cmd, t_env *e)
 		return(1); // careful 
 	}
 	else if (ft_strequ("quit", cmd) == 1)
+	{
 		handle_quit(cmd, e);
+		return (1);
+	}
 	else
 		ret = handle_rest(cmd,e);
 	if (ret != -1 && read(SK, buf, BUFSIZE) > 0)
@@ -73,11 +77,9 @@ static void send_cmd_and_receive(t_env *e)
 {
 	int r;
 	char buf[BUFSIZE];
-	int i;
 
 	ft_bzero(buf,BUFSIZE);
 	r = 0;
-	i = 0;
 	write(1,"\x1B[32mftp> \x1B[0m",14);
 	while ((r = read(0, buf, BUFSIZE)) > 0)
 	{
@@ -86,6 +88,7 @@ static void send_cmd_and_receive(t_env *e)
 		if (ft_strlen(buf) > 1)
 			(check_cmd(buf, e));
 		r = 0;
+		ft_bzero(buf,BUFSIZE);
 		write(1,"\x1B[32mftp> \x1B[0m",14);
 	}
 }
@@ -99,6 +102,7 @@ int main(int ac, char **av)
 	e = (t_env *)malloc(sizeof(t_env));
 	init_env(e, av);
 	connect_to_socket(e);
+	login(e);
 	send_cmd_and_receive(e);
 	ft_putendl("Closing");  
 	return(0);

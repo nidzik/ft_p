@@ -6,37 +6,68 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:06:15 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/14 22:19:42 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/15 23:14:59 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p_cli.h"
-
-void handle_get(char *cmd, t_env *e)
+/*
+static char *check_localfile(char *cmd)
+{
+    char *namefile;
+    char **arr;
+	
+    arr = NULL;
+	namefile = NULL;
+	ft_putendl(cmd);
+    arr = ft_strsplit(ft_strtrim(cmd), ' ');
+	ft_putendl(arr[1]);
+    if (ft_arraylen(arr) == 2)
+	{
+        namefile = ft_str_last_slash(arr[1]);
+		ft_putendl("namefiel1");
+		ft_putendl(namefile);
+		ft_putendl("namefiel1");
+		return (namefile);
+	}
+    else if (ft_arraylen(arr) >= 3)
+	{
+        namefile = arr[2];
+		ft_putendl("namefiel2");
+		return (namefile);
+	}
+		ft_putendl("namefiel1NULL");
+	return (NULL);
+}
+*/
+int	handle_get(char *cmd, t_env *e)
 {
 	int file;
 	int r;
 	char buf[BUFSIZE];
 	char *namefile;
+
+	namefile = NULL;
 	char **arr;
 
 	arr = NULL;
 	arr = ft_strsplit(ft_strtrim(cmd), ' ');
+	ft_print_array(arr);
 	if (ft_arraylen(arr) == 2)
 		namefile = ft_str_last_slash(arr[1]);
 	else if (ft_arraylen(arr) >= 3)
 		namefile = arr[2];
-	ft_putendl(namefile);
-	if ((file = open(namefile, O_WRONLY | O_CREAT, S_IRUSR |\
-					 S_IWUSR)) < 0 )
+//	ft_putendl(namefile);
+//	namefile = check_localfile(cmd);
+//	ft_putendl(namefile);
+	if ((file = open(arr[1], O_WRONLY | O_CREAT, S_IRUSR )) < 0 )
 	{
 		ft_putendl("ERROR can't open the file");
-		return;
+		return (-1);
 	}
 	if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
 		exit_error("Error, can't write on the socket.");
 	ft_bzero(buf,BUFSIZE);
-	ft_putchar('.');
 	while (( r  = read(e->socketid, buf,BUFSIZE)) > 0){
 		if (r < 0)
 			exit_error("Erorr reading buf");
@@ -53,10 +84,11 @@ void handle_get(char *cmd, t_env *e)
 	}
 	close(file);
 	ft_putendl("closing file oklm");
+	return (1);
 }
 
 
-void handle_put(char *cmd, t_env *e)
+int	handle_put(char *cmd, t_env *e)
 {
    int r;
     char buf[BUFSIZE];
@@ -69,24 +101,25 @@ void handle_put(char *cmd, t_env *e)
     if ((file = open(ft_strtrim(ft_str_sub_until(cmd, 4)), O_RDONLY)) > 0)
 		{
 			if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
-				ft_putendl("error write");
+				ft_putendl("Socket disconnected.");
 			if (read(SK,rep,3 ) < 0)
-				ft_putendl("read rep error");
-			//        exit_error("Error, can't write on the socket.");
+				exit_error("Error, can't read on the socket.");
 			while (( r  = read(file, buf,BUFSIZE)) != EOF)
 				{
 					if (r < 0)
 						exit_error("Erorr reading buf");
 					write(SK, buf, r);
-					//write(1, buf, r);
 					ft_bzero(buf,BUFSIZE);
 					if (r != BUFSIZE)
 						break;
 					r = 0;
 				}
 		}
-			else
-				ft_putendl("error open file");
+	else
+	{
+		ft_putendl("error open file");
+		return (0);
+	}
 	close(file);	
-	return;
+	return (1);
 }

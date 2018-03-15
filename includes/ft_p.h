@@ -10,7 +10,9 @@
 #include <dirent.h>
 #include <sys/param.h>
 #include <sys/stat.h>
+
 #elif __linux__
+#include <crypt.h>
 #include <sys/stat.h>
 #include <sys/param.h>
 #include <sys/socket.h>
@@ -61,4 +63,7 @@ int		handle_put(char *cmd, t_env *e);
 void	handle_quit(char *cmd, t_env *e);
 int		check_path(char *path, char *ref_path);
 int		connect_me(int sockid);
+int		create_pass(char *pass, int sockid);
+int		verify_pass(char *pass, int sockid);
+
 #endif
