@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 12:05:23 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/15 22:06:26 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/16 23:17:08 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_p_cli.h"
@@ -49,13 +49,15 @@ static int check_cmd(char *cmd, t_env *e)
 	ft_bzero(buf, 128);
 	if (ft_strncmp("get", cmd, 3) == 0)
 	{
-		handle_get(cmd, e);
+		if (handle_get(cmd, e) == -1)
+			ft_putendl("upload fail. ERROR");
+		
 		return(1); // care
 	}
 	else if (ft_strncmp("put", cmd, 3) == 0)
 	{
 		handle_put(cmd, e);
-		return(1); // careful 
+//		return(1); // careful 
 	}
 	else if (ft_strequ("quit", cmd) == 1)
 	{

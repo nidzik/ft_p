@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:06:15 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/15 23:14:59 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/16 23:23:19 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ int	handle_get(char *cmd, t_env *e)
 		namefile = ft_str_last_slash(arr[1]);
 	else if (ft_arraylen(arr) >= 3)
 		namefile = arr[2];
-//	ft_putendl(namefile);
+	ft_putchar('-');
+	ft_putendl(ft_strtrim(arr[1]));
+	ft_putchar('-');
 //	namefile = check_localfile(cmd);
 //	ft_putendl(namefile);
-	if ((file = open(arr[1], O_WRONLY | O_CREAT, S_IRUSR )) < 0 )
+	if ((file = open(ft_strtrim(namefile), O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) < 0 ) 
 	{
 		ft_putendl("ERROR can't open the file");
 		return (-1);
@@ -68,6 +70,7 @@ int	handle_get(char *cmd, t_env *e)
 	if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
 		exit_error("Error, can't write on the socket.");
 	ft_bzero(buf,BUFSIZE);
+	ft_putendl("enter read get");
 	while (( r  = read(e->socketid, buf,BUFSIZE)) > 0){
 		if (r < 0)
 			exit_error("Erorr reading buf");
@@ -82,6 +85,7 @@ int	handle_get(char *cmd, t_env *e)
 			break;
 		r = 0;
 	}
+	ft_putendl("enter read get");
 	close(file);
 	ft_putendl("closing file oklm");
 	return (1);
@@ -92,18 +96,21 @@ int	handle_put(char *cmd, t_env *e)
 {
    int r;
     char buf[BUFSIZE];
-	char rep[3];
+//	char rep[3];
     int file;
 
+	ft_putendl(cmd);
+	ft_putchar('-');
     ft_putendl(ft_strtrim(ft_str_sub_until(cmd, 4)));
+	ft_putchar('-');
     ft_bzero(buf,BUFSIZE);
     r = 0;
     if ((file = open(ft_strtrim(ft_str_sub_until(cmd, 4)), O_RDONLY)) > 0)
 		{
 			if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
 				ft_putendl("Socket disconnected.");
-			if (read(SK,rep,3 ) < 0)
-				exit_error("Error, can't read on the socket.");
+//			if (read(SK,rep,3 ) < 0)
+//				exit_error("Error, can't read on the socket.");
 			while (( r  = read(file, buf,BUFSIZE)) != EOF)
 				{
 					if (r < 0)

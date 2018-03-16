@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:02:21 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/14 22:25:09 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/16 23:12:42 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,20 @@ int handle_get(char *cmd, t_env *e)
     ft_putendl("ft_get");
     ft_bzero(buf,BUFSIZE);
     r = 0;
-	tmp = ft_strdellastslash(cmd);
-    if (check_path(tmp, "/Users/nidzik/Documents/ft_p/") == -1 )
+	tmp = ft_strdellastslash(arr[1]);
+	ft_putendl(tmp);
+    if ((tmp))
 	{
-		write(SK,"get : no such file or directory\nERROR\n\0",39);
-		return (0);
+		if ((check_path(tmp, "/Users/nidzik/Documents/ft_p/user/") == -1))
+		{
+			write(SK,"get : no such file or directory\nERROR\n\0",39);
+			return (0);
+		}
 	}
+	ft_putendl("try to open file serv get ");
 	if ((file = open(arr[1], O_RDONLY)) > 0)
-{
+	{
+		ft_putendl("enter read get serv");
         while (( r  = read(file, buf,BUFSIZE)) != EOF)
             {
             if (r < 0)
@@ -44,12 +50,14 @@ int handle_get(char *cmd, t_env *e)
                 break;
             r = 0;
         }
+//		write(SK,"SUCCESS\n\0",5);
 			close(file);
     }
 	else
 		write(SK,"ERROR\n\0",5);
 	if (tmp)
 		free(tmp);
+	ft_putendl("ret get serv");
 	return (0);
 }
 
@@ -60,7 +68,8 @@ int handle_put(char *cmd, t_env *e)
     char buf[BUFSIZE];
     char *namefile;
 
-    namefile = ft_strtrim(ft_str_sub_until(cmd, 4));
+	r = 0;
+//    namefile = ft_strtrim(ft_str_sub_until(cmd, 4));
   ft_putendl(namefile);
     if ((file = open(ft_strtrim(ft_str_sub_until(cmd, 4)), O_WRONLY | O_CREAT, S_IRUSR | \
 S_IWUSR)) < 0 )
@@ -69,12 +78,28 @@ S_IWUSR)) < 0 )
         return(1);
     }
     ft_bzero(buf,BUFSIZE);
-	write(SK,"OK\0",3);
+//	write(SK,"OK\0",3);
     ft_putchar('.');
 	while ((r = read(SK, buf, BUFSIZE)) >= 0 )
-	write(file, buf, r);
-	if (r < 0)
-	ft_putendl("eror read ");
+	{
+		write(file, buf, r);
+		if (ft_strsearch(buf, "ERROR\n\0"))
+		{
+			write(SK, "put : no such file or directory.\nERROR\n\0", 40);
+		}
+		else if (r <=  0)
+		{
+			write(SK, "Socket disconected.\nERROR\n\0", 27);
+			break;
+		}
+		else if (r < BUFSIZE)
+		{
+			write(SK, "Uplodad completed.\nSUCCESS\n\0", 28);
+			break;
+		}
+		ft_bzero(buf,BUFSIZE);
+	}
+	
     close(file);
     ft_putendl("closing file oklm");
 	return (0);

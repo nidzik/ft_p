@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 21:31:30 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/14 22:01:35 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/16 22:14:07 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char		*ft_strdellastslash(char *str)
 
 	i = 0;
 	j = 0;
-	if (str == NULL)
+	if (str == NULL || ft_strchr(str, '/') == 0)
 		return (NULL);
 	ptr = NULL;
 	new = NULL;
