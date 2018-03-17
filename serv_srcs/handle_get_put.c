@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:02:21 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/16 23:12:42 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/17 16:34:12 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int handle_get(char *cmd, t_env *e)
     ft_bzero(buf,BUFSIZE);
     r = 0;
 	tmp = ft_strdellastslash(arr[1]);
-	ft_putendl(tmp);
-    if ((tmp))
+    if (tmp != NULL)
 	{
 		if ((check_path(tmp, "/Users/nidzik/Documents/ft_p/user/") == -1))
 		{

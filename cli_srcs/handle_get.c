@@ -6,12 +6,12 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:06:15 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/16 23:23:19 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/17 16:33:09 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p_cli.h"
-/*
+
 static char *check_localfile(char *cmd)
 {
     char *namefile;
@@ -19,27 +19,20 @@ static char *check_localfile(char *cmd)
 	
     arr = NULL;
 	namefile = NULL;
-	ft_putendl(cmd);
     arr = ft_strsplit(ft_strtrim(cmd), ' ');
-	ft_putendl(arr[1]);
     if (ft_arraylen(arr) == 2)
 	{
         namefile = ft_str_last_slash(arr[1]);
-		ft_putendl("namefiel1");
-		ft_putendl(namefile);
-		ft_putendl("namefiel1");
 		return (namefile);
 	}
     else if (ft_arraylen(arr) >= 3)
 	{
         namefile = arr[2];
-		ft_putendl("namefiel2");
 		return (namefile);
 	}
-		ft_putendl("namefiel1NULL");
 	return (NULL);
 }
-*/
+
 int	handle_get(char *cmd, t_env *e)
 {
 	int file;
@@ -48,7 +41,7 @@ int	handle_get(char *cmd, t_env *e)
 	char *namefile;
 
 	namefile = NULL;
-	char **arr;
+/*	char **arr;
 
 	arr = NULL;
 	arr = ft_strsplit(ft_strtrim(cmd), ' ');
@@ -59,9 +52,9 @@ int	handle_get(char *cmd, t_env *e)
 		namefile = arr[2];
 	ft_putchar('-');
 	ft_putendl(ft_strtrim(arr[1]));
-	ft_putchar('-');
-//	namefile = check_localfile(cmd);
-//	ft_putendl(namefile);
+*/	ft_putchar('-');
+	namefile = check_localfile(cmd);
+	ft_putendl(namefile);
 	if ((file = open(ft_strtrim(namefile), O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) < 0 ) 
 	{
 		ft_putendl("ERROR can't open the file");
