@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:02:21 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/17 16:34:12 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/19 21:10:37 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,17 @@ int handle_get(char *cmd, t_env *e)
 	tmp = ft_strdellastslash(arr[1]);
     if (tmp != NULL)
 	{
-		if ((check_path(tmp, "/Users/nidzik/Documents/ft_p/user/") == -1))
+		if ((check_path(tmp, e->ref) == -1))
 		{
 			write(SK,"get : no such file or directory\nERROR\n\0",39);
 			return (0);
 		}
+		else if (check_path(arr[1], e->ref) == -1)
+		{
+			write(SK,"get : no such file or directory\nERROR\n\0",39);
+			return (0);
+		}
+
 	}
 	ft_putendl("try to open file serv get ");
 	if ((file = open(arr[1], O_RDONLY)) > 0)
@@ -53,13 +59,23 @@ int handle_get(char *cmd, t_env *e)
 			close(file);
     }
 	else
-		write(SK,"ERROR\n\0",5);
+		write(SK,"get : no such file or directory\nERROR\n\0",39);
 	if (tmp)
 		free(tmp);
 	ft_putendl("ret get serv");
 	return (0);
 }
+/*
+static int check_ifreal(char *path)
+{
+    struct stat sta;
+    int i;
 
+    i = stat(path ,&sta);
+    if (i < 0)
+        printf("--error fd stat %s--\n",path);
+    return (i);
+	}*/
 int handle_put(char *cmd, t_env *e)
 {
     int file;
@@ -68,8 +84,9 @@ int handle_put(char *cmd, t_env *e)
     char *namefile;
 
 	r = 0;
-//    namefile = ft_strtrim(ft_str_sub_until(cmd, 4));
-  ft_putendl(namefile);
+    namefile = ft_strtrim(ft_str_sub_until(cmd, 4));
+	ft_putendl(namefile);
+
     if ((file = open(ft_strtrim(ft_str_sub_until(cmd, 4)), O_WRONLY | O_CREAT, S_IRUSR | \
 S_IWUSR)) < 0 )
     {

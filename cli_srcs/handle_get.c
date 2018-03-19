@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:06:15 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/17 16:33:09 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/19 21:09:39 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@ int	handle_get(char *cmd, t_env *e)
 		namefile = arr[2];
 	ft_putchar('-');
 	ft_putendl(ft_strtrim(arr[1]));
-*/	ft_putchar('-');
+*/
+//	ft_putchar('-');
 	namefile = check_localfile(cmd);
-	ft_putendl(namefile);
+//	ft_putendl(namefile);
 	if ((file = open(ft_strtrim(namefile), O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) < 0 ) 
 	{
 		ft_putendl("ERROR can't open the file");
@@ -63,14 +64,14 @@ int	handle_get(char *cmd, t_env *e)
 	if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
 		exit_error("Error, can't write on the socket.");
 	ft_bzero(buf,BUFSIZE);
-	ft_putendl("enter read get");
+//	ft_putendl("enter read get");
 	while (( r  = read(e->socketid, buf,BUFSIZE)) > 0){
 		if (r < 0)
 			exit_error("Erorr reading buf");
 		if (ft_strsearch(buf, "ERROR\n"))
         {
 			write(1, buf, r);
-			break;
+			return (-1);
 		}
 		write(file, buf, r);
 		ft_bzero(buf,BUFSIZE);
@@ -78,9 +79,8 @@ int	handle_get(char *cmd, t_env *e)
 			break;
 		r = 0;
 	}
-	ft_putendl("enter read get");
 	close(file);
-	ft_putendl("closing file oklm");
+	ft_putendl("File written. \nSUCCESS\n\0");
 	return (1);
 }
 
@@ -92,10 +92,6 @@ int	handle_put(char *cmd, t_env *e)
 //	char rep[3];
     int file;
 
-	ft_putendl(cmd);
-	ft_putchar('-');
-    ft_putendl(ft_strtrim(ft_str_sub_until(cmd, 4)));
-	ft_putchar('-');
     ft_bzero(buf,BUFSIZE);
     r = 0;
     if ((file = open(ft_strtrim(ft_str_sub_until(cmd, 4)), O_RDONLY)) > 0)
@@ -117,8 +113,9 @@ int	handle_put(char *cmd, t_env *e)
 		}
 	else
 	{
-		ft_putendl("error open file");
-		return (0);
+//		write(SK, "ERROR\n\0", 7);
+		ft_putendl("put : no such file or directory\n\0");
+		return (-1);
 	}
 	close(file);	
 	return (1);

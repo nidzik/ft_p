@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:30:45 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/14 23:09:59 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/19 19:05:56 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void init_env(t_env *e, char **av)
 	e->port = ft_atoi(av[1]);
 	e->prot = getprotobyname("tcp");
 	e->socketid = 0;
+	e->ref = NULL;
 	e->accept_socket = 0;
 	e->pid = 0;
 	e->cli_size = 0;
@@ -73,7 +74,7 @@ static void boucle_accept(t_env *e)
 		{
 			close(e->socketid);
 			//handle
-			while (connect_me(e->accept_socket) != 1)
+			if (connect_me(e->accept_socket, e) != 1)
 				;
 			ft_ftp(e);
 			close(e->accept_socket);

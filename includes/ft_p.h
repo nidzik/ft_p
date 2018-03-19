@@ -44,6 +44,7 @@ struct protoent	*prot;
   int		port;
   int		pid;
   int		socketid;
+	char *ref;
   int		sonid;
   int		accept_socket;
   int		cli_size;
@@ -62,7 +63,7 @@ int		handle_get(char *cmd, t_env *e);
 int		handle_put(char *cmd, t_env *e);
 void	handle_quit(char *cmd, t_env *e);
 int		check_path(char *path, char *ref_path);
-int		connect_me(int sockid);
+int		connect_me(int sockid, t_env *e);
 int		create_pass(char *pass, int sockid);
 int		verify_pass(char *pass, int sockid);
 

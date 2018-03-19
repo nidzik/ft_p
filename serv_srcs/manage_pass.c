@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 14:52:01 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/15 20:23:40 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/19 17:31:29 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,13 @@ int verify_pass(char *pass, int sockid)
 	printf("--pass : %s  dec = %s  crypty : %s  \n",pass, dec, crypt(pass, "1234"));
 	if (!ft_strncmp(dec,pass_file,ft_strlen(dec)))
 	{
+        write(1, "Connected\nSUCCESS\n\0", 19);
 		write(sockid, "Connected\nSUCCESS\n\0", 19);
 		return (1);
 	}
 	else
 	{
+        write(1, "Connected\nSUCCESS\n\0", 19);
 		write(sockid, "Wrong password\nERROR\n\0", 22);
 		return (-1);
 	}
