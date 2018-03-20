@@ -6,16 +6,16 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:06:15 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/20 20:17:32 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/20 22:10:38 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p_cli.h"
 
-static char *check_localfile(char *cmd)
+static char		*check_localfile(char *cmd)
 {
-    char *namefile;
-    char **arr;
+    char		*namefile;
+    char		**arr;
 	
     arr = NULL;
 	namefile = NULL;
@@ -33,90 +33,70 @@ static char *check_localfile(char *cmd)
 	return (NULL);
 }
 
-int	handle_get(char *cmd, t_env *e)
+void		init_get(t_file *f)
 {
-	int file;
-	int r;
-	char buf[BUFSIZE];
-	char *namefile;
-	int cmp;
+	f->cmp = 0;
+	f->r = 0;
+	f->namefile = NULL;
+	f->arr = NULL;
+	ft_bzero(f->buf,BUFSIZE);
+}
 
-	cmp = 0;
-	namefile = NULL;
-	namefile = check_localfile(cmd);
+int			handle_get(char *cmd, t_env *e)
+{
+	t_file f;
+
+	init_get(&f);
+	f.namefile = check_localfile(cmd);
 	if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
 		exit_error("Error, can't write on the socket.");
-	ft_bzero(buf,BUFSIZE);
-	while (( r  = read(e->socketid, buf,BUFSIZE)) > 0){
-		cmp++;
-		if (r < 0)
+	while ((f.r  = read(e->socketid, f.buf,BUFSIZE)) > 0)
+	{
+		f.cmp++;
+		if (f.r < 0)
 			exit_error("Erorr reading buf");
-		if (ft_strsearch(buf, "ERROR\n"))
-        {
-			write(1, buf, r);
-			return (-1);
-		}
-		if ((cmp == 1) && (file = open(ft_strtrim(namefile),			\
+		if (ft_strsearch(f.buf, "ERROR\n"))	
+			return (return_error(f.buf));
+		if ((f.cmp == 1) && (f.file = open(f.namefile,\
 								 O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) < 0 ) 
-		{
-			ft_putendl("ERROR can't open the file");
-			return (-1);
-		}
-
-		write(file, buf, r);
-		ft_bzero(buf,BUFSIZE);
-		if (r != BUFSIZE)
+			return (return_error("ERROR can't open the file"));
+		write(f.file, f.buf, f.r);
+		ft_bzero(f.buf, BUFSIZE);
+		if (f.r != BUFSIZE)
 			break;
-		r = 0;
+		f.r = 0;
 	}
-	close(file);
+	close(f.file);
 	ft_putstr("File written. \nSUCCESS\n\0");
 	return (1);
 }
 
-
 int	handle_put(char *cmd, t_env *e)
 {
-   int r;
-    char buf[BUFSIZE];
-//	char rep[3];
-    int file;
-	char **tab;
+	t_file f;
 
-	tab = NULL;
-	tab = ft_strsplit(ft_strtrim(cmd), ' ');
-    ft_bzero(buf,BUFSIZE);
-    r = 0;
-    if (tab[1] && (file = open(tab[1], O_RDONLY)) > 0)
-		{
-			if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
-				ft_putendl("Socket disconnected.");
-//			if (read(SK,rep,3 ) < 0)
-//				exit_error("Error, can't read on the socket.");
-			read(SK, buf, BUFSIZE);
-			if (ft_strsearch(buf, "ERROR\n\0"))
-			{
-				write(1, buf, ft_strlen(buf));
-				return (-1);
-			}
-			while (( r  = read(file, buf,BUFSIZE)) != EOF)
-				{
-					if (r < 0)
-						exit_error("Erorr reading buf");
-					
-					write(SK, buf, r);
-					ft_bzero(buf,BUFSIZE);
-					if (r != BUFSIZE)
-						break;
-					r = 0;
-				}
-		}
-	else
+	init_get(&f);
+	f.arr = ft_strsplit(ft_strtrim(cmd), ' ');
+	if (f.arr[1] && (f.file = open(f.arr[1], O_RDONLY)) > 0)
 	{
-//		write(SK, "ERROR\n\0", 7);
-		ft_putstr("put : no such file or directory\n\0");
-		return (-1);
+		if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
+			return (return_error("Socket disconnected.\n\0"));
+		read(SK, f.buf, BUFSIZE);
+		if (ft_strsearch(f.buf, "ERROR\n\0"))
+			return (return_error(f.buf));
+		while ((f.r = read(f.file, f.buf, BUFSIZE)) != EOF)
+		{
+			if (f.r < 0)
+				exit_error("Erorr reading f.buf");
+			write(SK, f.buf, f.r);
+			ft_bzero(f.buf,BUFSIZE);
+			if (f.r != BUFSIZE)
+				break;
+			f.r = 0;
+		}
 	}
-	close(file);	
+	else
+		return (return_error("put : no such file or directory\n\0"));
+	close(f.file);	
 	return (1);
 }

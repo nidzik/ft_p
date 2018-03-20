@@ -28,7 +28,17 @@ typedef struct  s_stream
     size_t      cursor;
 } t_stream;
 
-void	exit_error(char *err);
+typedef struct	s_file
+{
+	int			file;
+	int			r;
+	int 		cmp;
+	char		*namefile;
+	char		buf[BUFSIZE];
+	char		**arr;
+}				t_file;
+
+void			exit_error(char *err);
 int             get_next_line(const int fd, char **line);
 int             read_until(t_stream *stream, char **str, char c);
 void            create_stream(int fd, t_stream *stream);
@@ -37,4 +47,9 @@ int				handle_put(char *cmd, t_env *e);
 int				handle_rest(char *cmd, t_env *e);
 void			handle_quit(char *cmd, t_env *e);
 int				login(t_env *e);
+int				check_cmd(char *cmd, t_env *e);
+int				snd_rcve_cmd(int *cmp, char *buf, t_env *e, int r);
+void			handle_error_snd_rcve(int r);
+void			init_snd_rcve(int *cmp, int *r);
+int				return_error(char *str);
 #endif
