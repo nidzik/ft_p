@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:33:26 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/19 19:06:10 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/20 19:35:59 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int		connect_me(int sockid, t_env *e)
 		username[r-1] = '\0';
 		if (check_username(username, sockid) != -1)
 		{
-			ft_putendl("print here username");
 			write(sockid, "Username set. Need password.\nSUCCESS\n\0", 38);
 			while ((r = read(sockid, (char *)pass, 128)) > 0)
 			{

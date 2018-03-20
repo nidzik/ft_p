@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 22:05:38 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/19 20:40:52 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/20 18:12:11 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,7 @@ int comunicate_login(int sockid, char *buf)
 	write(1, buf, ft_strlen(buf));
 	return (res);
 }
-/*
-static int create_refpath(char *buf, t_env *e)
-{
-//	read(SK, buf, BUFSIZE);
-//	ft_putendl("PAHTH CREATE E REF");
-//	e->ref_path = ft_strdup(buf);
-	return (1);
-}
-*/
+
 void fct(int c )
 {
 	ft_putnbr(c);
@@ -110,17 +102,11 @@ int login(t_env *e)
 	r = 0;
 	write(1,"USER:\n",6);
 	write(1,"\x1B[32mftp> \x1B[0m",14);
-//	while (1)
-//	{
-
-//	while  ((r = read(0, buf, 128)) > 0)
-//	{
 	while (1)
 	{
 		if (r == 1 && user == 1)
 			break;
 		r = my_read(128, 0, 1, com_log, SK);
-//		printf("r = %d  user = %d  \n ",r, user);
 		if (r == -2)
 			;
 		else if (r < 0)
@@ -136,28 +122,7 @@ int login(t_env *e)
 		if (r != 1 || user != 1)
 			prompt_login(user);	
 	}
-		
-		
-/*		ft_putendl("READ");
-		buf[r] = '\0';
-		if (ft_strlen(buf) > 1)
-		{
-			printf(">>login : %s\n", buf);
-			comunicate_login(e->socketid, buf);
-			printf(">>reponse : %s\n", buf);
-*/
-/*			if (user == 0 && ft_strsearch(buf, "SUCCESS\n"))
-				user = 1;
-			else if (user == 1 && ft_strsearch(buf, "SUCCESS\n"))
-				return (1);//create_refpath(buf, e));
-*/
-//}
 		r = 0;
 		ft_bzero(buf,128);
-//		prompt_login(user);
-//		ft_putendl("coucou");
-//	}
-//	}
-//		ft_putendl("coucou2");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 12:05:23 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/19 21:12:42 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/20 20:18:14 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_p_cli.h"
@@ -48,12 +48,7 @@ static int check_cmd(char *cmd, t_env *e)
 	ret = 0;
 	ft_bzero(buf, 128);
 	if (ft_strncmp("get ", cmd, 4) == 0)
-	{
-		if (handle_get(cmd, e) == -1)
-			ft_putendl("upload fail. ERROR");
-		
-		return(1); // care
-	}
+		return (handle_get(cmd, e) == -1));
 	else if (ft_strncmp("put ", cmd, 4) == 0)
 	{
 		if (handle_put(cmd, e) == -1)
@@ -80,19 +75,39 @@ static void send_cmd_and_receive(t_env *e)
 {
 	int r;
 	char buf[BUFSIZE];
+	int cmp;
 
+	cmp = 0;
 	ft_bzero(buf,BUFSIZE);
 	r = 0;
 	write(1,"\x1B[32mftp> \x1B[0m",14);
+//	while (r == (BUFFSIZE - 1) || <= 0)
+	while (1)
+	{
 	while ((r = read(0, buf, BUFSIZE)) > 0)
 	{
-		
-		buf[r] = '\0';
-		if (ft_strlen(buf) > 1)
-			(check_cmd(buf, e));
-		r = 0;
-		ft_bzero(buf,BUFSIZE);
+		cmp++;
+		if (cmp == 1)
+		{
+			buf[r] = '\0';
+			if (ft_strlen(buf) > 1)
+				check_cmd(buf, e);
+		}
 		write(1,"\x1B[32mftp> \x1B[0m",14);
+		if (r < BUFSIZE && r > 0)
+		{
+			ft_bzero(buf,BUFSIZE);
+			r = 0;		
+			break ;			
+		}
+		else if (r == 0)
+			ft_putendl("exit.");
+		else
+			exit_error("Read error. Exit...");
+		ft_bzero(buf,BUFSIZE);
+		r = 0;		
+	}
+	cmp = 0;
 	}
 }
 

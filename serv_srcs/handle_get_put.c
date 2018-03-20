@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:02:21 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/19 21:10:37 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/20 19:54:12 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,29 +65,30 @@ int handle_get(char *cmd, t_env *e)
 	ft_putendl("ret get serv");
 	return (0);
 }
-/*
-static int check_ifreal(char *path)
-{
-    struct stat sta;
-    int i;
 
-    i = stat(path ,&sta);
-    if (i < 0)
-        printf("--error fd stat %s--\n",path);
-    return (i);
-	}*/
 int handle_put(char *cmd, t_env *e)
 {
     int file;
     int r;
     char buf[BUFSIZE];
     char *namefile;
+	char **tab;
 
+	tab = ft_strsplit(ft_strtrim(cmd), ' ');
+	namefile = NULL;
+	if (tab[1])
+		namefile = tab[1];
 	r = 0;
-    namefile = ft_strtrim(ft_str_sub_until(cmd, 4));
-	ft_putendl(namefile);
-
-    if ((file = open(ft_strtrim(ft_str_sub_until(cmd, 4)), O_WRONLY | O_CREAT, S_IRUSR | \
+//    namefile = ft_strtrim(ft_str_sub_until(cmd, 4));
+	if (!namefile || check_ifdirexist(namefile) >= 0 )
+	{
+		write(1, "put : file already exist.\nERROR\n\0", 33);
+		write(SK, "put : file already exist.\nERROR\n\0", 33);
+		return(1);
+	}
+	else 
+		printf("file dont exist : %s-",namefile);
+    if ((file = open(namefile, O_WRONLY | O_CREAT, S_IRUSR | \
 S_IWUSR)) < 0 )
     {
         ft_putendl("ERROR can't open the file");

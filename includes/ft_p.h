@@ -66,5 +66,5 @@ int		check_path(char *path, char *ref_path);
 int		connect_me(int sockid, t_env *e);
 int		create_pass(char *pass, int sockid);
 int		verify_pass(char *pass, int sockid);
-
+int		check_ifdirexist(char *path);
 #endif

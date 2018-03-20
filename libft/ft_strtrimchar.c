@@ -6,13 +6,13 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 13:58:32 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/13 20:09:36 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/20 20:13:30 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_strtrimchar(char *s, char o)
+char				*ft_strtrimchar(char *s, char o)
 {
 	int				d;
 	unsigned int	c;
