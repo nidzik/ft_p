@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 12:05:23 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/20 20:18:14 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/20 20:23:02 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_p_cli.h"
@@ -48,7 +48,7 @@ static int check_cmd(char *cmd, t_env *e)
 	ret = 0;
 	ft_bzero(buf, 128);
 	if (ft_strncmp("get ", cmd, 4) == 0)
-		return (handle_get(cmd, e) == -1));
+		return (handle_get(cmd, e) == -1);
 	else if (ft_strncmp("put ", cmd, 4) == 0)
 	{
 		if (handle_put(cmd, e) == -1)
