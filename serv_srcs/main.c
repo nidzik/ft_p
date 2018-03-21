@@ -30,9 +30,11 @@ static void init_env(t_env *e, char **av)
 
 static void sock_bind_listen(t_env *e)
 {
-	if ((e->socketid = socket(PF_INET, SOCK_STREAM, e->prot->p_proto)) < 0)
+	if ((e->socketid = socket(PF_INET, SOCK_STREAM,\
+						e->prot->p_proto)) < 0)
 		exit_error("socket error server side.\nExiting...");
-	if ((bind(e->socketid, (struct sockaddr *) &e->serv_sock, sizeof(e->serv_sock))) < 0)
+	if ((bind(e->socketid, (struct sockaddr *) &e->serv_sock,\
+			sizeof(e->serv_sock))) < 0)
 		exit_error("Error while binding the socket.\nExiting...");
 	if (listen(e->socketid, 5) < 0 )
 		exit_error("Error while listing. Exiting...");  
@@ -43,9 +45,8 @@ static void ft_ftp(t_env *e)
 	int req;
 	int r;
 	char buf[128];
-  
+
 	req = 0;
-	ft_putendl("Reading the cmd from socket...");
 	while(42)
 		if ((r = read(SK, (char *)buf, sizeof(buf))) >0)
 		{
@@ -67,15 +68,13 @@ static void ft_ftp(t_env *e)
 static void boucle_accept(t_env *e)
 {
 	while(42)
-    {
+	{
 		if ((e->accept_socket = accept(e->socketid, (struct sockaddr *) &e->cli_sock, (unsigned int *)&e->cli_size)) < 0)
 			exit_error("Error while accepting the socket. Exiting...");
 		if ((e->pid = fork()) == 0)
 		{
 			close(e->socketid);
-			//handle
-			if (connect_me(e->accept_socket, e) != 1)
-				;
+			connect_me(e->accept_socket, e);
 			ft_ftp(e);
 			close(e->accept_socket);
 			exit(0);

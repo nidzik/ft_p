@@ -18,36 +18,25 @@ int			handle_ls(char **cmd, t_env *e)
 	int					status;
 	struct rusage   usage;
 	int					i;
-	int stdio[3];
+	int stdio[2];
 	char *gg;
-	int ret_fork; 
 
-	ret_fork = 0;
 	gg = NULL;
 	if (!cmd[1] || (!ft_strncmp(cmd[1], "/\0", 2)))
 		gg = ".";
 	if (gg || (cmd[1] && check_path(cmd[1], e->ref) != -1))
 	{
 		if (!gg)
-		gg = cmd[1];
-//		gg = malloc(sizeof(char) * ft_strlen(ref) + ft_strlen(cmd[1]) * sizeof(char));
-		//	gg = ft_strncpy(gg, ref, ft_strlen(ref));
-		//gg = ft_strncat(gg, cmd[1], ft_strlen(cmd[1]));
-
-//	printf("cmd1 = %s, gg = %s\n",cmd[1] , gg);fflush(stdout);
-	stdio[1] = SK;
-	stdio[2] = SK;
-//	ft_print_array(cmd);
-	if ((pid = fork()) < 0)
-		exit (0);
-	else if (pid == 0)
+			gg = cmd[1];
+		stdio[1] = SK;
+		if ((pid = fork()) < 0)
+			exit (0);
+		else if (pid == 0)
 		{
-			i = -1;
-			while (++i < 2)
-				if (stdio[i] != -1 && stdio[i] != i)
-					dup2(stdio[i], i);
-			ret_fork = execl("/bin/ls","ls","-la", gg, NULL);
-			exit(1);
+			if (stdio[1] != -1 && stdio[1] != 1)
+					dup2(stdio[1], 1);
+			execl("/bin/ls","ls","-la", gg, NULL);
+			exit(0);
 		}
 	else
 		wait4(pid, &status, 0, &usage);
@@ -110,7 +99,6 @@ void get_fct(char *cmd,	 t_env *e)
 	ft_putendl(ft_strtrim(cmd));
 	array_cmd = ft_strsplit(ft_strtrim(cmd), ' ');
 	i = ft_arraylen(array_cmd) -1 ;
-	//array_cmd[i][ft_strlen(array_cmd[i]) -1 ] = '\0';//trim_array(array_cmd);
 	if (ft_strncmp("ls\0", array_cmd[0], 3) == 0)
 		handle_ls(array_cmd, e);
 	else if (ft_strncmp("pwd", array_cmd[0],ft_strlen(array_cmd[0])) == 0)

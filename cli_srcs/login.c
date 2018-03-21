@@ -16,13 +16,13 @@ static void prompt_login(int check)
 {
 	if (check == 1)
 	{
-		write(1,"PASSWORD:\n",10);
-		write(1,"\x1B[32mftp> \x1B[0m",14);
+		write(1, "PASSWORD:\n", 10);
+		write(1, "\x1B[32mftp> \x1B[0m", 14);
 	}
 	else
 	{
-		write(1,"USER:\n",6);
-		write(1,"\x1B[32mftp> \x1B[0m",14);
+		write(1, "USER:\n", 6);
+		write(1, "\x1B[32mftp> \x1B[0m", 14);
 	}
 }
 
@@ -38,13 +38,8 @@ int comunicate_login(int sockid, char *buf)
 	return (res);
 }
 
-void fct(int c )
-{
-	ft_putnbr(c);
-		
-}
-
-int my_read(int buffsize, int fd, int block, int (*fct)(int, char *), int sock)
+int my_read(int buffsize, int fd, int block,\
+			int (*fct)(int, char *), int sock)
 {
 	char buf[buffsize];
 	int cmp;
@@ -55,49 +50,35 @@ int my_read(int buffsize, int fd, int block, int (*fct)(int, char *), int sock)
 	r = 0;
 	cmp = 0;
 	ft_bzero(buf, buffsize);
-	while (r == (buffsize -1) || r <= 0)
+	while (r == (buffsize - 1) || r <= 0)
 	{
 		r = read(fd, buf, buffsize-1);
-		ft_putstr("boucle");
-		ft_putnbr(r);
 		if (r == 0)
 			exit_error("Bye, have a beautifull day !");
 		if (r == 1 && cmp == 0)
 			return (-2);
 		buf[r] = '\0';
 		cmp++;
-			if (cmp == 1 && block == 1)
-			{
-				fct(sock, buf);
-				if ((ret =ft_strsearch(buf, "SUCCESS\n")))
-					;
-			}
-			else if (block == 0)
-			{
-				fct(sock, buf);
-			}
-			ft_putendl("boucle");
-			ft_bzero(buf, buffsize);
+		if (cmp == 1 && block == 1)
+		{
+			fct(sock, buf);
+			ret = ft_strsearch(buf, "SUCCESS\n");
+		}
+		ft_bzero(buf, buffsize);
 	}
 	return (ret);
-	return (r);
-	
 }
 int login(t_env *e)
 {
 	int r;
 	char buf[128];
 	int user;
-	void (*myfct)(int);
 	int (*com_log)(int, char *);
 	int i;
 
-	user = 0;
 	i = 0;
-	com_log = comunicate_login;
-	myfct = fct;
-	(*fct)(44);
 	user = 0;
+	com_log = comunicate_login;
 	ft_bzero(buf,128);
 	r = 0;
 	write(1,"USER:\n",6);
@@ -111,13 +92,10 @@ int login(t_env *e)
 			;
 		else if (r < 0)
 			return (-1);
-		else if (r == 1)
+		else if (r == 1 && user == 0)
 		{
-			if (user == 0)
-			{
-				user = 1;
-				r = 0;
-			}
+			user = 1;
+			r = 0;
 		}
 		if (r != 1 || user != 1)
 			prompt_login(user);	
