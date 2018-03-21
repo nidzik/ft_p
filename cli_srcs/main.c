@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 12:05:23 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/20 22:15:17 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/21 19:16:28 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static void		init_env(t_env *e, char **av)
 	ft_bzero(&e->serv_sock, sizeof(e->serv_sock));
 	e->serv_sock.sin_family = PF_INET;
 	// IF is not 127.0.0.1 but "localhost" do memcpy else do inet
-	//  ft_memcpy(&e->serv_sock.sin_addr.s_addr, e->serv->h_addr, e->serv->h_length);
+	//  ft_memcpy(&e->serv_sock.sin_addr.s_addr,\
+	//e->serv->h_addr, e->serv->h_length);
 	e->serv_sock.sin_addr.s_addr = inet_addr(av[1]);
 	//e->serv_sock.sin_addr.s_addr = htons(e->serv->h_addr);
 	e->serv_sock.sin_port = htons(e->port);
@@ -38,7 +39,10 @@ static void		connect_to_socket(t_env *e)
 		exit_error("Error while opening the socket.. Exiting");
 	if (connect(e->socketid, (struct sockaddr *)&e->serv_sock,\
 				sizeof(e->serv_sock)) < 0)
-		exit_error("Error while connecting the socket, if your using localhost try 127.0.0.1");
+	{
+		exit_error(\
+	"Error while connecting the socket, if your using localhost try 127.0.0.1");
+	}
 	ft_putendl("Welcome");
 }
 

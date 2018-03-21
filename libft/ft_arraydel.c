@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_arraydel.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 18:44:39 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/21 18:44:54 by nidzik           ###   ########.fr       */
+/*   Created: 2018/03/21 15:45:57 by nidzik            #+#    #+#             */
+/*   Updated: 2018/03/21 16:22:15 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_p_cli.h"
+#include "libft.h"
 
-void	exit_error(char *err)
+void	ft_arraydel(char **tab)
 {
-	ft_putendl(err);
-	exit(1);
-}
+	int i;
 
-int		return_error(char *str)
-{
-	ft_putstr(str);
-	return (-1);
+	i = 0;
+	if (tab)
+	{
+		while (tab[i])
+		{
+			ft_strdel(&tab[i]);
+			i++;
+		}
+		free(tab);
+		tab = NULL;
+	}
 }

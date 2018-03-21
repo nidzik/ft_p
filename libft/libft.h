@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/04 15:27:34 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/14 21:37:05 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/21 15:49:31 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void				ft_putendl(char const *s);
 void				ft_putnbr(int c);
 void				ft_print_array(char **arr);
 int					ft_arraylen(char **a);
-
+void				ft_arraydel(char **tab);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putendl_fd(char const *s, int fd);
