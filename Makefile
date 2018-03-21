@@ -6,11 +6,11 @@
 #    By: nidzik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/11 10:34:54 by nidzik            #+#    #+#              #
-#    Updated: 2018/03/21 19:11:56 by nidzik           ###   ########.fr        #
+#    Updated: 2018/03/21 20:22:54 by nidzik           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
-SERVER = server
+SERVER = serveur
 CLIENT = client
 # LIBFT
 LFTPATH = libft/
