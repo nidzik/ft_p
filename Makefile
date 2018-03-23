@@ -6,7 +6,7 @@
 #    By: nidzik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/11 10:34:54 by nidzik            #+#    #+#              #
-#    Updated: 2018/03/23 19:47:05 by nidzik           ###   ########.fr        #
+#    Updated: 2018/03/23 19:56:41 by nidzik           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -38,9 +38,10 @@ BASEFLAGS = -Wall -Wextra
 
 CFLAGS = $(BASEFLAGS) -Werror -O2 -g 
 
+SSERV = ""
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-	CCFLAGS += -lcrypt
+	SSERV += -lcrypt
 endif
 
 LFTCALL = all
@@ -81,7 +82,7 @@ all: l $(SERVER) $(CLIENT)
 
 $(SERVER): $(OBJSERVER) 
 	@echo "$(Y)[COMPILING SERVER] $(G) $(CC) -o $@ $(CFLAGS) objs.o $(LIBS) $(E)"
-	@$(CC)  -o $@ $(CFLAGS) -g $(OBJSERVER) $(INCLUDES) $(LIBS)
+	@$(CC)  -o $@ $(CFLAGS) $(SSERV) $(OBJSERVER) $(INCLUDES) $(LIBS)
 	@echo "$(Y)[COMPILING SERVER DONE]$(E)"
 
 $(OBJSERVER): $(OBJPATHSERVER)/%.o : $(SRCPATHSERVER)/%.c
@@ -90,7 +91,7 @@ $(OBJSERVER): $(OBJPATHSERVER)/%.o : $(SRCPATHSERVER)/%.c
 
 $(CLIENT): $(OBJCLI) 
 	@echo "$(Y)[COMPILING CLIENT] $(G) $(CC) -o $@ $(CFLAGS) objs.o $(LIBS) $(E)"
-	@$(CC)  -o $@ $(CFLAGS) -g $(OBJCLI) $(INCLUDES) $(LIBS)
+	@$(CC)  -o $@ $(CFLAGS) $(OBJCLI) $(INCLUDES) $(LIBS)
 	@echo "$(Y)[COMPILING CLIENT DONE]$(E)"
 
 $(OBJCLI): $(OBJPATHCLI)/%.o : $(SRCPATHCLI)/%.c
