@@ -6,7 +6,7 @@
 #    By: nidzik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/11 10:34:54 by nidzik            #+#    #+#              #
-#    Updated: 2018/03/21 20:22:54 by nidzik           ###   ########.fr        #
+#    Updated: 2018/03/23 19:47:05 by nidzik           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -35,8 +35,13 @@ INCLUDES = $(INCLUDE) $(LFTIPATH)
 
 
 BASEFLAGS = -Wall -Wextra
+
 CFLAGS = $(BASEFLAGS) -Werror -O2 -g 
 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	CCFLAGS += -lcrypt
+endif
 
 LFTCALL = all
 LFTRE = re
@@ -49,7 +54,8 @@ SRCFILESERVER  =	main.c \
 			handle_quit.c \
 			connect.c \
 			manage_pass.c \
-			norme.c
+			norme.c \
+			more.c
 
 SRCFILECLI  =	main.c \
 				error.c \
@@ -74,18 +80,18 @@ E = \033[39m
 all: l $(SERVER) $(CLIENT)
 
 $(SERVER): $(OBJSERVER) 
-	@echo "$(Y)[COMPILING NM] $(G) $(CC) -o $@ $(CFLAGS) objs.o $(LIBS) $(E)"
+	@echo "$(Y)[COMPILING SERVER] $(G) $(CC) -o $@ $(CFLAGS) objs.o $(LIBS) $(E)"
 	@$(CC)  -o $@ $(CFLAGS) -g $(OBJSERVER) $(INCLUDES) $(LIBS)
-	@echo "$(Y)[COMPILING NM DONE]$(E)"
+	@echo "$(Y)[COMPILING SERVER DONE]$(E)"
 
 $(OBJSERVER): $(OBJPATHSERVER)/%.o : $(SRCPATHSERVER)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) -o $@ $(CFLAGS) $(INCLUDES) -c $<
 
 $(CLIENT): $(OBJCLI) 
-	@echo "$(Y)[COMPILING OT] $(G) $(CC) -o $@ $(CFLAGS) objs.o $(LIBS) $(E)"
+	@echo "$(Y)[COMPILING CLIENT] $(G) $(CC) -o $@ $(CFLAGS) objs.o $(LIBS) $(E)"
 	@$(CC)  -o $@ $(CFLAGS) -g $(OBJCLI) $(INCLUDES) $(LIBS)
-	@echo "$(Y)[COMPILING OT DONE]$(E)"
+	@echo "$(Y)[COMPILING CLIENT DONE]$(E)"
 
 $(OBJCLI): $(OBJPATHCLI)/%.o : $(SRCPATHCLI)/%.c
 	@mkdir -p $(dir $@)

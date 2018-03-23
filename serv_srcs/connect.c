@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:33:26 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/21 17:27:02 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/23 19:31:39 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ int		check_ifdirexist(char *path)
 	int			i;
 
 	i = stat(path, &sta);
-	if (i < 0)
-		printf("--error fd stat %s--\n", path);
 	return (i);
 }
 

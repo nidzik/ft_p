@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 20:34:59 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/21 19:44:51 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/23 19:05:07 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,36 @@ void	init_snd_rcve(int *cmp, int *r)
 	*cmp = 0;
 	*r = 0;
 	write(1, "\x1B[32mftp> \x1B[0m", 14);
+}
+
+int		core_put(int sk, t_file *f)
+{
+	if (f->r < 0)
+		exit_error("Erorr reading f.buf");
+	if (f->r == 0)
+	{
+		write(sk, "\0", 1);
+		return (-42);
+	}
+	write(sk, f->buf, f->r);
+	ft_bzero(f->buf, BUFSIZE);
+	if (f->r != BUFSIZE)
+		return (-42);
+	f->r = 0;
+	return (1);
+}
+
+int		core_get(t_file *f)
+{
+	if (ft_strsearch(f->buf, "EMPTY\n"))
+	{
+		write(f->file, "\0", 1);
+		return (-42);
+	}
+	write(f->file, f->buf, f->r);
+	ft_bzero(f->buf, BUFSIZE);
+	if (f->r != BUFSIZE)
+		return (-42);
+	f->r = 0;
+	return (1);
 }

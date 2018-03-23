@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 22:05:38 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/21 19:53:17 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/23 19:01:52 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ int			my_read(int buffsize, int fd, int (*fct)(int, char *), int sock)
 	int		r;
 	int		ret;
 
-	ret = 0;
-	r = 0;
-	cmp = 0;
+	zeroo(&ret, &r, &cmp);
 	ft_bzero(buf, buffsize);
 	while (r == (buffsize - 1) || r <= 0)
 	{
@@ -82,8 +80,9 @@ void		init_login(t_file *f)
 int			login(t_env *e)
 {
 	char	buf[128];
-	t_file f;
+	t_file	f;
 
+	init_login(&f);
 	ft_bzero(buf, 128);
 	while (1)
 	{
@@ -93,10 +92,7 @@ int			login(t_env *e)
 		if (f.r == -1)
 			return (-1);
 		else if (f.r == 1 && f.cmp == 0)
-		{
-			f.cmp = 1;
-			f.r = 0;
-		}
+			uno(&f);
 		if (f.r != 1 || f.cmp != 1)
 			prompt_login(f.cmp);
 	}

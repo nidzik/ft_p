@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 16:24:02 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/21 19:04:06 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/23 19:06:04 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	exit_error(char *err)
 
 int		return_error_s(char *err, int i, int sk)
 {
-	ft_putstr_fd(err, sk);
+	write(sk, err, ft_strlen(err) + 1);
 	return (i);
 }
 

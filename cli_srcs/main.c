@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 12:05:23 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/21 19:16:28 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/23 19:03:41 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,15 @@ static void		init_env(t_env *e, char **av)
 	e->ref_path = NULL;
 	if (e->serv == NULL)
 	{
-		ft_putendl("No such ho");
+		ft_putendl("Cannot connect to the host\nERROR\0");
+		free(e);
 		exit(0);
 	}
 	ft_bzero(&e->serv_sock, sizeof(e->serv_sock));
 	e->serv_sock.sin_family = PF_INET;
-	// IF is not 127.0.0.1 but "localhost" do memcpy else do inet
-	//  ft_memcpy(&e->serv_sock.sin_addr.s_addr,\
-	//e->serv->h_addr, e->serv->h_length);
 	e->serv_sock.sin_addr.s_addr = inet_addr(av[1]);
-	//e->serv_sock.sin_addr.s_addr = htons(e->serv->h_addr);
+	ft_memcpy(&e->serv_sock.sin_addr.s_addr, e->serv->h_addr,\
+			e->serv->h_length);
 	e->serv_sock.sin_port = htons(e->port);
 }
 
@@ -101,7 +100,7 @@ static void		send_cmd_and_receive(t_env *e)
 	}
 }
 
-int			main(int ac, char **av)
+int				main(int ac, char **av)
 {
 	t_env	*e;
 

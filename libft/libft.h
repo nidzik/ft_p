@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/04 15:27:34 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/21 15:49:31 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/23 19:28:54 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ char				**ft_strsplitwith(char *str, char *seps, size_t *count);
 int					ft_strsearch(char *src, char *find);
 char				*ft_str_last_slash(char *str);
 char				*ft_strdellastslash(char *str);
-
 
 void				*ft_memalloc(size_t size);
 void				ft_bzero(void *s, size_t n);
