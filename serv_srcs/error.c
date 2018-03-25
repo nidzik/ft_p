@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 16:24:02 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/23 19:06:04 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/25 18:00:31 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ char	*get_cmd(char *cmd)
 		return (str);
 	}
 	else
+	{
+		ft_arraydel(tab);
 		return (NULL);
+	}
 }
 
 char	**create_tab(char *str)

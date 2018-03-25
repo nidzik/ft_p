@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 23:20:46 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/21 19:32:53 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/25 18:01:58 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int			handle_cd(char *cmd, t_env *e)
 	else
 		error_cmd_cd(SK, "cd", "No such file or directory.\nERROR\n\0",\
 					arrcmd[1]);
+	ft_arraydel(arrcmd);
 	return (0);
 }
 
@@ -82,6 +83,7 @@ void		get_fct(char *cmd, t_env *e)
 		handle_quit(cmd, e);
 	else
 		write(SK, "command not found\nERROR\n\0", 25);
+	ft_arraydel(array_cmd);
 }
 
 void		get_pwd(char *buf, t_env *e)
@@ -91,12 +93,9 @@ void		get_pwd(char *buf, t_env *e)
 	ft_bzero(path, 1024);
 	(void)buf;
 	getcwd(path, sizeof(path));
-	ft_putnbr((int)sizeof(path));
-	ft_putendl(path);
 	path[ft_strlen(path)] = '\n';
 	path[ft_strlen(path) + 1] = '\0';
 	write(SK, path, ft_strlen(path));
 	write(SK, "SUCCESS\n\0", 9);
-	write(1, path, ft_strlen(path));
 	ft_bzero(path, 1024);
 }

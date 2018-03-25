@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:33:26 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/23 19:31:39 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/25 18:00:00 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int		check_username(char *username, int sockid)
 			res = chdir(username);
 			if (res == -1)
 			{
-				ft_putendl("eroro chdir");
 				return (-1);
 			}
 		}

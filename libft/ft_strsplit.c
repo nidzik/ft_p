@@ -6,7 +6,7 @@
 /*   By: bbichero <bbichero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/03 11:02:01 by bbichero          #+#    #+#             */
-/*   Updated: 2015/03/10 18:07:36 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/25 17:50:46 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ char			**ft_strsplit(const char *s, char c)
 	t = (char **)malloc(sizeof(*t) * (ft_nb_str((const char *)s, c) + 1));
 	if (t == NULL)
 		return (NULL);
-	t[0] = (char *)malloc((sizeof(char) * nb_str) + 1);
 	while (nb_str--)
 	{
 		while (*s == c && *s)

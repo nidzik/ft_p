@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:02:21 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/23 19:30:46 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/25 18:04:33 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ int				handle_put(char *cmd, t_env *e)
 	}
 	close(f.file);
 	ft_arraydel(f.arr);
+	ft_strdel(&f.namefile);
 	return (0);
 }

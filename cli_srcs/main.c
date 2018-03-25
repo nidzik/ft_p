@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 12:05:23 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/23 19:03:41 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/25 17:47:19 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,6 @@ int				main(int ac, char **av)
 	ft_putendl("return from login");
 	send_cmd_and_receive(e);
 	ft_putendl("Closing");
+	free(e);
 	return (0);
 }

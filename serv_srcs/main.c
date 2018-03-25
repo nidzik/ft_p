@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:30:45 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/22 15:43:58 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/25 17:58:42 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,15 @@ static void	ft_ftp(t_env *e)
 			break ;
 }
 
-static void	boucle_accept(t_env *e)
+static void	boucle_accept(t_env *elp)
 {
+	t_env *e;
+	int i;
+	struct rusage u;
+
+	i = 0;
+	e = NULL;
+	ft_memcpy(&e, &elp, sizeof(t_env));
 	while (42)
 	{
 		if ((e->accept_socket = accept(e->socketid,\
@@ -78,7 +85,13 @@ static void	boucle_accept(t_env *e)
 			connect_me(e->accept_socket, e);
 			ft_ftp(e);
 			close(e->accept_socket);
+			free(e);
 			exit(0);
+		}
+		else if (e->pid > 0)
+		{
+			wait4(e->pid, &i, 0, &u);
+			free(e);
 		}
 	}
 }
@@ -94,5 +107,6 @@ int			main(int ac, char **av)
 	init_env(e, av);
 	sock_bind_listen(e);
 	boucle_accept(e);
+	free(e);
 	return (0);
 }

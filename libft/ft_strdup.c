@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/11 10:38:10 by nidzik            #+#    #+#             */
-/*   Updated: 2014/12/12 10:56:23 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/25 17:50:26 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char		*ft_strdup(const char *s1)
 	char	*t;
 	int		i;
 
+	if (!s1)
+		return (NULL);
 	i = 0;
 	t = (char *)malloc(ft_strlen(s1) * sizeof(char *));
 	if (t == NULL)

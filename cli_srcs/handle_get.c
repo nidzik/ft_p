@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:06:15 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/23 18:25:31 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/25 17:44:28 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,16 @@ static char		*check_localfile(char *cmd)
 	if (ft_arraylen(arr) == 2)
 	{
 		namefile = ft_str_last_slash(arr[1]);
+		ft_arraydel(arr);
 		return (namefile);
 	}
 	else if (ft_arraylen(arr) >= 3)
 	{
-		namefile = arr[2];
+		namefile = ft_strdup(arr[2]);
+		ft_arraydel(arr);
 		return (namefile);
 	}
+	ft_arraydel(arr);
 	return (NULL);
 }
 
@@ -83,6 +86,7 @@ int				handle_get(char *cmd, t_env *e)
 			break ;
 	}
 	close(f.file);
+	ft_strdel(&(f.namefile));
 	ft_putstr("File written. \nSUCCESS\n\0");
 	return (1);
 }
@@ -107,5 +111,6 @@ int				handle_put(char *cmd, t_env *e)
 	else
 		return (return_error("put : no such file or directory\n\0"));
 	close(f.file);
+	ft_arraydel(f.arr);
 	return (1);
 }
