@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 22:29:14 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/21 19:11:12 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/01 19:45:07 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int			check_path(char *path, char *path_ref)
 	}
 	else
 	{
-		ft_putendl(old_path);
 		chdir(old_path);
 		return (-1);
 	}

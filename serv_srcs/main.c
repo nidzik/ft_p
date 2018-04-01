@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:30:45 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/25 17:58:42 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/01 19:23:48 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	sock_bind_listen(t_env *e)
 		exit_error("Error while listing. Exiting...");
 }
 
-static void	ft_ftp(t_env *e)
+void		ft_ftp(t_env *e)
 {
 	int		req;
 	int		r;
@@ -47,6 +47,7 @@ static void	ft_ftp(t_env *e)
 
 	req = 0;
 	while (42)
+	{
 		if ((r = read(SK, (char *)buf, sizeof(buf))) > 0)
 		{
 			if (r <= 0)
@@ -62,37 +63,23 @@ static void	ft_ftp(t_env *e)
 		}
 		else
 			break ;
+	}
 }
 
 static void	boucle_accept(t_env *elp)
 {
-	t_env *e;
-	int i;
-	struct rusage u;
+	t_env			*e;
+	int				i;
 
-	i = 0;
-	e = NULL;
-	ft_memcpy(&e, &elp, sizeof(t_env));
 	while (42)
 	{
-		if ((e->accept_socket = accept(e->socketid,\
-									(struct sockaddr *)&e->cli_sock,\
-									(unsigned int *)&e->cli_size)) < 0)
+		if ((elp->accept_socket = accept(elp->socketid,\
+									(struct sockaddr *)&elp->cli_sock,\
+									(unsigned int *)&elp->cli_size)) < 0)
 			exit_error("Error while accepting the socket. Exiting...");
-		if ((e->pid = fork()) == 0)
-		{
-			close(e->socketid);
-			connect_me(e->accept_socket, e);
-			ft_ftp(e);
-			close(e->accept_socket);
-			free(e);
-			exit(0);
-		}
-		else if (e->pid > 0)
-		{
-			wait4(e->pid, &i, 0, &u);
-			free(e);
-		}
+		i = 0;
+		e = NULL;
+		core_accept(elp);
 	}
 }
 

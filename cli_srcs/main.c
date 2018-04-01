@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 12:05:23 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/25 17:47:19 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/01 21:28:04 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ static void		connect_to_socket(t_env *e)
 	if (connect(e->socketid, (struct sockaddr *)&e->serv_sock,\
 				sizeof(e->serv_sock)) < 0)
 	{
-		exit_error(\
-	"Error while connecting the socket, if your using localhost try 127.0.0.1");
+		exit_error("Error while connecting the socket.");
 	}
 	ft_putendl("Welcome");
 }
@@ -49,6 +48,7 @@ int				check_cmd(char *cmd, t_env *e)
 {
 	char		buf[128];
 	int			ret;
+	char		*tri;
 
 	ret = 0;
 	ft_bzero(buf, 128);
@@ -59,15 +59,16 @@ int				check_cmd(char *cmd, t_env *e)
 		if (handle_put(cmd, e) == -1)
 			return (-1);
 	}
-	else if (ft_strequ("quit", cmd) == 1)
+	else if (ft_strncmp("quit\0", tri = ft_strtrim(cmd), 5) == 0)
+	{
+		ft_strdel(&tri);
 		handle_quit(cmd, e);
+	}
 	else
 		ret = handle_rest(cmd, e);
+	ft_strdel(&tri);
 	if (ret != -1 && read(SK, buf, BUFSIZE) > 0)
-	{
 		ft_putstr(buf);
-		return (0);
-	}
 	return (0);
 }
 
@@ -81,7 +82,7 @@ static void		send_cmd_and_receive(t_env *e)
 	ft_bzero(buf, BUFSIZE);
 	while (1)
 	{
-		while ((r = read(0, buf, BUFSIZE)) >= 0)
+		while ((r = read(0, buf, BUFSIZE)) > 0)
 		{
 			snd_rcve_cmd(&cmp, buf, e, r);
 			write(1, "\x1B[32mftp> \x1B[0m", 14);
@@ -110,7 +111,6 @@ int				main(int ac, char **av)
 	init_env(e, av);
 	connect_to_socket(e);
 	login(e);
-	ft_putendl("return from login");
 	send_cmd_and_receive(e);
 	ft_putendl("Closing");
 	free(e);

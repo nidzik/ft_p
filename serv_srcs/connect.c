@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:33:26 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/25 18:00:00 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/01 19:29:56 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ int		check_username(char *username, int sockid)
 		{
 			res = chdir(username);
 			if (res == -1)
-			{
 				return (-1);
-			}
 		}
 	}
 	else
@@ -80,8 +78,6 @@ int		connect_me(int sockid, t_env *e)
 	{
 		if ((r = read(sockid, (char *)username, 128)) > 0)
 		{
-			if (r == -1)
-				exit_error("ERROR while readding the socket\n");
 			username[r - 1] = '\0';
 			if (check_username(username, sockid) != -1)
 			{
@@ -91,6 +87,8 @@ int		connect_me(int sockid, t_env *e)
 			else
 				write(sockid, "Cannot connect to user.\nERROR\n\0", 31);
 		}
+		else
+			return (-42);
 	}
 	return (0);
 }

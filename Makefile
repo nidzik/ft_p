@@ -6,7 +6,7 @@
 #    By: nidzik <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/11 10:34:54 by nidzik            #+#    #+#              #
-#    Updated: 2018/03/23 19:56:41 by nidzik           ###   ########.fr        #
+#    Updated: 2018/04/01 22:40:42 by nidzik           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -36,7 +36,7 @@ INCLUDES = $(INCLUDE) $(LFTIPATH)
 
 BASEFLAGS = -Wall -Wextra
 
-CFLAGS = $(BASEFLAGS) -Werror -O2 -g 
+CFLAGS = $(BASEFLAGS) -Werror -O2 -g
 
 SSERV = ""
 UNAME_S := $(shell uname -s)

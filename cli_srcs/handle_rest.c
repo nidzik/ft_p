@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 21:27:11 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/21 18:48:49 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/01 21:26:29 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int		handle_rest(char *cmd, t_env *e)
 
 void	handle_quit(char *cmd, t_env *e)
 {
-	if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
-		exit_error("Error, can't write on the socket.");
+	(void)cmd;
+	close(SK);
 	free(e);
-	exit(0);
+	exit(EXIT_SUCCESS);
 }

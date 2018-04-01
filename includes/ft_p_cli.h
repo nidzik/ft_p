@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 18:00:58 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/23 19:28:32 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/01 21:37:25 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 
 # define BUFSIZE 2048
 # define SK e->socketid
+# define NF f.namefile
+# define TXT "put : no such file or directory\n\0"
 
 typedef struct	s_env
 {
@@ -63,7 +65,7 @@ int				check_cmd(char *cmd, t_env *e);
 int				snd_rcve_cmd(int *cmp, char *buf, t_env *e, int r);
 void			handle_error_snd_rcve(int r);
 void			init_snd_rcve(int *cmp, int *r);
-int				return_error(char *str);
+int				return_error(char *str, char **tab, char *tofree);
 int				core_put(int sk, t_file *f);
 int				core_get(t_file *f);
 void			zeroo(int *i, int *j, int *k);

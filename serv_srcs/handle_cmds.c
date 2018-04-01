@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 23:20:46 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/25 18:01:58 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/26 17:09:50 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		get_fct(char *cmd, t_env *e)
 		handle_get(cmd, e);
 	else if (ft_strncmp("put ", cmd, 4) == 0)
 		handle_put(cmd, e);
-	else if (ft_strequ("quit", cmd) == 1)
+	else if (ft_strncmp("quit", array_cmd[0], ft_strlen(array_cmd[0])) == 0)
 		handle_quit(cmd, e);
 	else
 		write(SK, "command not found\nERROR\n\0", 25);

@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:02:21 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/25 18:04:33 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/01 21:12:31 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ static int		check_get(t_file *f, char *cmd, t_env *e)
 	{
 		if ((check_path(f->namefile, e->ref) == -1))
 		{
-			write(1, "get : no such file or directory.\nERROR\n\0", 39);
 			write(SK, "get : no such file or directory.\nERROR\n\0", 39);
 			return (-1);
 		}
 		else if (check_ifdirexist(f->arr[1]) == -1)
 		{
-			write(1, "get : no such file or directory\nERROR\n\0", 39);
 			write(SK, "get : no such file or directory\nERROR\n\0", 39);
 			return (-1);
 		}
@@ -59,7 +57,7 @@ int				handle_get(char *cmd, t_env *e)
 	}
 	else
 		write(SK, "get : no such file or directory\nERROR\n\0", 39);
-	if (f.r == 0)
+	if (f.r == 0 && f.file != -1)
 		write(SK, "EMPTY\n\0", 7);
 	ft_strdel(&(f.namefile));
 	ft_arraydel(f.arr);

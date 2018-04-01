@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 17:16:41 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/23 19:20:42 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/03/26 14:45:16 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,6 @@ int						check_pass(char *pass, int sockid);
 int						return_error_s(char *err, int i, int sk);
 int						core_put(int sk, t_file *f);
 int						core_get(int sk, t_file *f);
+void					ft_ftp(t_env *e);
+int						core_accept(t_env *elp);
 #endif

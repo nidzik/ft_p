@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 19:10:38 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/23 19:19:16 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/01 19:30:46 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,37 @@ int		core_get(int sk, t_file *f)
 		return (-42);
 	f->r = 0;
 	return (1);
+}
+
+void	handler(int sig)
+{
+	pid_t			pid;
+	struct rusage	u;
+
+	(void)sig;
+	pid = wait4(-1, 0, 0, &u);
+}
+
+int		core_accept(t_env *elp)
+{
+	t_env	*e;
+	int		i;
+
+	e = elp;
+	i = 0;
+	signal(SIGCHLD, handler);
+	if ((e->pid = fork()) == 0)
+	{
+		close(e->socketid);
+		if (connect_me(e->accept_socket, e) != -42)
+			ft_ftp(e);
+		close(e->accept_socket);
+		free(e);
+		exit(0);
+	}
+	else if (e->pid > 0)
+	{
+		close(elp->accept_socket);
+	}
+	return (0);
 }

@@ -6,13 +6,13 @@
 #    By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/11 10:46:15 by nidzik            #+#    #+#              #
-#    Updated: 2018/03/21 15:49:01 by nidzik           ###   ########.fr        #
+#    Updated: 2018/04/01 22:40:10 by nidzik           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 
 CC = gcc
-NAME = libft
+NAME = libft.a
 CFLAGS = -Wall -Wextra -Werror
 SRCS = \
 	ft_strlen.c ft_strcpy.c ft_strcat.c ft_strncpy.c ft_strncat.c \
@@ -29,21 +29,33 @@ SRCS = \
 		ft_arraylen.c ft_strsubuntil.c ft_strsearch.c ft_str_last_slash.c \
 		ft_strtrimchar.c ft_strdellastslash.c ft_arraydel.c
 
+T_SRC   =   ./
+T_INC   =   ./
+T_OBJ   =   ./obj/
+SRC =   $(addprefix $(T_SRC), $(N_SRC))
+OBJ =   $(addprefix $(T_OBJ), $(N_OBJ))
+INC =   $(addprefix -I, $(I_INC))
+
+N_OBJ   =   $(N_SRC:.c=.o)
+
+.PHONY: all clean fclean re
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	@ar rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
+
+$(T_OBJ)%.o: $(T_SRC)%.c
+	@mkdir -p $(T_OBJ)
+	@$(CC) $(CC_FLAG) -o $@ -c $^ $(INC)
+
 OBJECTS = $(SRCS:%.c=%.o)
 
-all : $(NAME)
-
-$(NAME): $(OBJECTS)
-	@ar rc $(NAME).a $(OBJECTS)
-	@ranlib libft.a
-
-$(OBJECTS): %.o : %.c
-	$(CC) -o $@ $(CFLAGS) -c $<
 clean:
 	rm -rf $(OBJECTS)
 
 fclean: clean
-	rm -rf libft.a
 	rm -rf $(NAME)
 
 re: fclean all

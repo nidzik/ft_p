@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:06:15 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/25 17:44:28 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/01 21:44:10 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ int				handle_get(char *cmd, t_env *e)
 		if (f.r < 0)
 			exit_error("Erorr reading buf");
 		if (ft_strsearch(f.buf, "ERROR\n"))
-			return (return_error(f.buf));
+			return (return_error(f.buf, NULL, f.namefile));
 		else if (ft_strsearch(f.buf, "SUCCESS\n"))
 			break ;
 		if ((f.cmp == 1) && (f.file = open(f.namefile,\
 								O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) < 0)
-			return (return_error("ERROR can't open the file"));
+			return (return_error("ERROR can't open the file", NULL, NF));
 		if (core_get(&f) == -42)
 			break ;
 	}
@@ -100,16 +100,16 @@ int				handle_put(char *cmd, t_env *e)
 	if (f.arr[1] && (f.file = open(f.arr[1], O_RDONLY)) > 0)
 	{
 		if (write(e->socketid, cmd, ft_strlen(cmd)) < 0)
-			return (return_error("Socket disconnected.\n\0"));
+			return (return_error("Socket disconnected.\n\0", f.arr, NULL));
 		read(SK, f.buf, BUFSIZE);
 		if (ft_strsearch(f.buf, "ERROR\n\0"))
-			return (return_error(f.buf));
+			return (return_error(f.buf, f.arr, NULL));
 		while ((f.r = read(f.file, f.buf, BUFSIZE)) != EOF)
 			if (core_put(SK, &f) == -42)
 				break ;
 	}
 	else
-		return (return_error("put : no such file or directory\n\0"));
+		return (return_error(TXT, f.arr, NULL));
 	close(f.file);
 	ft_arraydel(f.arr);
 	return (1);
