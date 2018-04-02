@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 12:05:23 by nidzik            #+#    #+#             */
-/*   Updated: 2018/04/01 21:28:04 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/02 15:11:44 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int				check_cmd(char *cmd, t_env *e)
 	char		*tri;
 
 	ret = 0;
+	tri = NULL;
 	ft_bzero(buf, 128);
 	if (ft_strncmp("get ", cmd, 4) == 0)
 		return (handle_get(cmd, e) == -1);

@@ -6,7 +6,7 @@
 #    By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/11 10:46:15 by nidzik            #+#    #+#              #
-#    Updated: 2018/04/01 22:40:10 by nidzik           ###   ########.fr        #
+#    Updated: 2018/04/01 22:54:39 by nidzik           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -36,7 +36,7 @@ SRC =   $(addprefix $(T_SRC), $(N_SRC))
 OBJ =   $(addprefix $(T_OBJ), $(N_OBJ))
 INC =   $(addprefix -I, $(I_INC))
 
-N_OBJ   =   $(N_SRC:.c=.o)
+N_OBJ   =   $(SRCS:.c=.o)
 
 .PHONY: all clean fclean re
 
@@ -48,12 +48,12 @@ $(NAME): $(OBJ)
 
 $(T_OBJ)%.o: $(T_SRC)%.c
 	@mkdir -p $(T_OBJ)
-	@$(CC) $(CC_FLAG) -o $@ -c $^ $(INC)
+	$(CC) $(CC_FLAG) -o $@ -c $^ $(INC)
 
 OBJECTS = $(SRCS:%.c=%.o)
 
 clean:
-	rm -rf $(OBJECTS)
+	rm -rf $(T_OBJ)
 
 fclean: clean
 	rm -rf $(NAME)
