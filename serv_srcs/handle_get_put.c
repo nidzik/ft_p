@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:02:21 by nidzik            #+#    #+#             */
-/*   Updated: 2018/04/02 16:47:53 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/02 18:04:13 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int				handle_put(char *cmd, t_env *e)
 		return (-1);
 	while ((f.r = read(SK, f.buf, BUFSIZE)) != EOF)
 	{
-		ft_putendl(f.buf);
 		if (ft_strsearch(f.buf, "EMPTY\n\0"))
 		{
 			write(SK, "Upload completed.\nSUCCESS\n\0", 27);
