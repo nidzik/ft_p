@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 19:10:38 by nidzik            #+#    #+#             */
-/*   Updated: 2018/04/01 19:30:46 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/02 16:49:34 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,12 @@ int		core_put(int sk, t_file *f)
 	}
 	else if (f->r == 0)
 	{
-		write(f->file, "\0", 1);
-		write(sk, "Uplodad completed.\nSUCCESS\n\0", 28);
+		write(sk, "Upload completed.\nSUCCESS\n\0", 27);
 		return (-42);
 	}
 	else if (f->r < BUFSIZE)
 	{
-		write(sk, "Uplodad completed.\nSUCCESS\n\0", 28);
+		write(sk, "Upload completed.\nSUCCESS\n\0", 27);
 		return (-42);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:06:15 by nidzik            #+#    #+#             */
-/*   Updated: 2018/04/01 21:44:10 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/02 16:38:13 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int				handle_get(char *cmd, t_env *e)
 		else if (ft_strsearch(f.buf, "SUCCESS\n"))
 			break ;
 		if ((f.cmp == 1) && (f.file = open(f.namefile,\
-								O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) < 0)
+								O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR)) < 0)
 			return (return_error("ERROR can't open the file", NULL, NF));
 		if (core_get(&f) == -42)
 			break ;

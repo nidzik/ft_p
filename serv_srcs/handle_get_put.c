@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:02:21 by nidzik            #+#    #+#             */
-/*   Updated: 2018/04/01 21:12:31 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/02 16:47:53 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,19 @@ int				handle_get(char *cmd, t_env *e)
 
 static int		check_put(t_file *f, char *cmd, t_env *e)
 {
+	char *tmp;
+
 	f->namefile = get_cmd(cmd);
-	if (!f->namefile || check_ifdirexist(f->namefile) >= 0)
+	tmp = ft_str_last_slash(f->namefile);
+	if (!f->namefile || check_ifdirexist(tmp) >= 0)
 	{
 		write(SK, "put : file already exist.\nERROR\n\0", 33);
 		return (-1);
 	}
-	if ((f->file = open(f->namefile, O_WRONLY | O_CREAT, S_IRUSR | \
+	if ((f->file = open(tmp, O_WRONLY | O_CREAT, S_IRUSR | \
 					S_IWUSR)) < 0)
 	{
+		ft_strdel(&tmp);
 		return (return_error_s(\
 					"put : can't open the file.\nERROR\n\0", -1, SK));
 	}
@@ -91,6 +95,12 @@ int				handle_put(char *cmd, t_env *e)
 		return (-1);
 	while ((f.r = read(SK, f.buf, BUFSIZE)) != EOF)
 	{
+		ft_putendl(f.buf);
+		if (ft_strsearch(f.buf, "EMPTY\n\0"))
+		{
+			write(SK, "Upload completed.\nSUCCESS\n\0", 27);
+			break ;
+		}
 		write(f.file, f.buf, f.r);
 		if (core_put(SK, &f) == -42)
 			break ;

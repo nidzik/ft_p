@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 20:34:59 by nidzik            #+#    #+#             */
-/*   Updated: 2018/03/23 19:05:07 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/02 16:34:01 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,13 @@ int		snd_rcve_cmd(int *cmp, char *buf, t_env *e, int r)
 	return (0);
 }
 
-void	handle_error_snd_rcve(int r)
+void	handle_error_snd_rcve(int r, t_env *e)
 {
 	if (r == 0)
-		exit_error("Bye...");
+	{
+		ft_putendl("Bye...");
+		handle_quit(NULL, e);
+	}
 	else
 		exit_error("Read error. Exit...");
 }
@@ -45,7 +48,7 @@ int		core_put(int sk, t_file *f)
 		exit_error("Erorr reading f.buf");
 	if (f->r == 0)
 	{
-		write(sk, "\0", 1);
+		write(sk, "EMPTY\n\0", 7);
 		return (-42);
 	}
 	write(sk, f->buf, f->r);
@@ -60,7 +63,6 @@ int		core_get(t_file *f)
 {
 	if (ft_strsearch(f->buf, "EMPTY\n"))
 	{
-		write(f->file, "\0", 1);
 		return (-42);
 	}
 	write(f->file, f->buf, f->r);

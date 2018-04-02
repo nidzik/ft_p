@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 12:05:23 by nidzik            #+#    #+#             */
-/*   Updated: 2018/04/02 15:11:44 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/02 15:12:40 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void		send_cmd_and_receive(t_env *e)
 	ft_bzero(buf, BUFSIZE);
 	while (1)
 	{
-		while ((r = read(0, buf, BUFSIZE)) > 0)
+		while ((r = read(0, buf, BUFSIZE)) >= 0)
 		{
 			snd_rcve_cmd(&cmp, buf, e, r);
 			write(1, "\x1B[32mftp> \x1B[0m", 14);
@@ -94,7 +94,7 @@ static void		send_cmd_and_receive(t_env *e)
 				break ;
 			}
 			else
-				handle_error_snd_rcve(r);
+				handle_error_snd_rcve(r, e);
 			ft_bzero(buf, BUFSIZE);
 			r = 0;
 		}

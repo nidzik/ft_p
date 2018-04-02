@@ -6,7 +6,7 @@
 /*   By: nidzik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 18:00:58 by nidzik            #+#    #+#             */
-/*   Updated: 2018/04/01 21:37:25 by nidzik           ###   ########.fr       */
+/*   Updated: 2018/04/02 13:43:03 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void			handle_quit(char *cmd, t_env *e);
 int				login(t_env *e);
 int				check_cmd(char *cmd, t_env *e);
 int				snd_rcve_cmd(int *cmp, char *buf, t_env *e, int r);
-void			handle_error_snd_rcve(int r);
+void			handle_error_snd_rcve(int r, t_env *e);
 void			init_snd_rcve(int *cmp, int *r);
 int				return_error(char *str, char **tab, char *tofree);
 int				core_put(int sk, t_file *f);
